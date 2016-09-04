@@ -1,0 +1,34 @@
+{
+  "name": "mediamanager",
+  "version": "0.0.1",
+  "description": "Site to manage media (images, pdfs, etc). Store in s3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/firstandthird/mediamanager.git"
+  },
+  "keywords": [
+  ],
+  "author": "First+Third",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/firstandthird/mediamanager/issues"
+  },
+  "homepage": "https://github.com/firstandthird/mediamanager#readme",
+  "dependencies": {
+    "rapptor": "1.1.0"
+  },
+  "scripts": {
+    "start": "rapptor",
+    "dev": "concurrently 'clientkit dev' 'nodemon ./node_modules/.bin/rapptor'",
+    "lint": "eslint . --ignore-pattern _dist"
+  },
+  "devDependencies": {
+    "concurrently": "^2.2.0",
+    "eslint": "^3.4.0",
+    "eslint-config-firstandthird": "^3.0.1",
+    "eslint-plugin-import": "^1.14.0"
+  },
+  "eslintConfig": {
+    "extends": "firstandthird"
+  }
+}
