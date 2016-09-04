@@ -6,8 +6,7 @@
     "type": "git",
     "url": "git+https://github.com/firstandthird/mediamanager.git"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "First+Third",
   "license": "MIT",
   "bugs": {
@@ -15,6 +14,7 @@
   },
   "homepage": "https://github.com/firstandthird/mediamanager#readme",
   "dependencies": {
+    "clientkit": "^0.12.0",
     "rapptor": "1.1.0"
   },
   "scripts": {
