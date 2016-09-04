@@ -1,0 +1,9 @@
+app:
+  build: .
+  command: 'npm run dev'
+  volumes:
+    - '.:/app'
+  environment:
+    PORT: 8080
+  ports:
+    - '8080:8080'
