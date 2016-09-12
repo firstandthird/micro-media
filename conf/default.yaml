@@ -1,0 +1,8 @@
+plugins:
+  hapi-upload-s3:
+    endpoint: '/api/media'
+    s3Bucket: '{{ENV.MEDIAMANAGER_BUCKET}}'
+    s3SecretAccessKey: '{{ENV.MEDIAMANAGER_SECRETKEY}}'
+    s3AccessKeyId: '{{ENV.MEDIAMANAGER_ACCESSKEY}}'
+    s3Region: 'us-east-1'
+    contentTypes: ['image/jpeg']
