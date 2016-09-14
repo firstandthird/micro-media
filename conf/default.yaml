@@ -1,9 +1,9 @@
 debug: true
 s3:
-  Bucket: '{{ENV.MEDIAMANAGER_BUCKET}}'
-  SecretAccessKey: '{{ENV.MEDIAMANAGER_SECRETKEY}}'
-  AccessKeyId: '{{ENV.MEDIAMANAGER_ACCESSKEY}}'
-  Region: 'us-east-1'
+  Bucket: '{{ENV.BUCKET}}'
+  SecretAccessKey: '{{ENV.SECRETKEY}}'
+  AccessKeyId: '{{ENV.ACCESSKEY}}'
+  Region: '{{ENV.REGION}}'
 views:
   engines:
     html: 'handlebars'
@@ -16,5 +16,5 @@ plugins:
     s3Bucket: '{{s3.bucket}}'
     s3SecretAccessKey: '{{s3.secretaccesskey}}'
     s3AccessKeyId: '{{s3.accesskeyid}}'
-    s3Region: 'us-east-1'
+    s3Region: '{{s3.region}}'
     contentTypes: ['image/jpeg']
