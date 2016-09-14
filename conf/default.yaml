@@ -1,9 +1,9 @@
 debug: true
 s3:
-  Bucket: '{{ENV.BUCKET}}'
-  SecretAccessKey: '{{ENV.SECRETKEY}}'
-  AccessKeyId: '{{ENV.ACCESSKEY}}'
-  Region: '{{ENV.REGION}}'
+  bucket: '{{ENV.AWS_BUCKET}}'
+  accessKey: '{{ENV.AWS_ACCESS_KEY_ID}}'
+  secretAccessKey: '{{ENV.AWS_SECRET_ACCESS_KEY}}'
+  region: '{{ENV.AWS_DEFAULT_REGION}}'
 views:
   engines:
     html: 'handlebars'
@@ -14,7 +14,7 @@ plugins:
   hapi-upload-s3:
     endpoint: '/api/media'
     s3Bucket: '{{s3.bucket}}'
-    s3SecretAccessKey: '{{s3.secretaccesskey}}'
-    s3AccessKeyId: '{{s3.accesskeyid}}'
+    s3SecretAccessKey: '{{s3.secretAccessKey}}'
+    s3AccessKeyId: '{{s3.accessKey}}'
     s3Region: '{{s3.region}}'
     contentTypes: ['image/jpeg']
