@@ -1,5 +1,5 @@
 module.exports.get = {
-  path: '/api/media/{imageKey}',
+  path: '/api/media/{imageKey*}',
   method: 'GET',
   handler: (request, response) => {
     request.server.methods.get(request.params.imageKey, (err, result) => {
