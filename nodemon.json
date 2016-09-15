@@ -5,7 +5,8 @@
     "routes/**/*.js",
     "methods/**/*.js",
     "plugins/**/*.js",
-    "conf/*.yaml"
+    "conf/*.yaml",
+    "public/**/*.html"
   ],
   "ext": "js json html yaml"
 }
