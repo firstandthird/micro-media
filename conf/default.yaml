@@ -17,4 +17,3 @@ plugins:
     s3SecretAccessKey: '{{s3.secretAccessKey}}'
     s3AccessKeyId: '{{s3.accessKey}}'
     s3Region: '{{s3.region}}'
-    contentTypes: ['image/jpeg']
