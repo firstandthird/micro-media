@@ -20,7 +20,6 @@
     "hapi-upload-s3": "^0.5.0",
     "rapptor": "1.1.0",
     "vision": "^4.1.0"
->>>>>>> bdceb286560e91ce53d86e7b5317d0e49936b511
   },
   "scripts": {
     "start": "rapptor",
