@@ -22,7 +22,8 @@
   },
   "scripts": {
     "start": "rapptor",
-    "dev": "concurrently 'clientkit dev' 'nodemon ./node_modules/.bin/rapptor'",
+    "dev": "nodemon ./node_modules/.bin/rapptor",
+    "dev2": "concurrently 'clientkit dev' 'nodemon ./node_modules/.bin/rapptor'",
     "lint": "eslint . --ignore-pattern _dist"
   },
   "devDependencies": {
