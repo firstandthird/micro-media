@@ -6,6 +6,10 @@ module.exports = function(callback) {
   const s3Options = {};
   s3Options.Bucket = options.s3Bucket;
   s3.listObjectsV2(s3Options, (err, data) => {
-    callback(err, err ? undefined : data.Contents);
+    const imageUrlList = [];
+    data.Contents.forEach((imageOnS3) => {
+      imageUrlList.push(`${this.settings.app.s3Host}/${options.s3Bucket}/${imageOnS3.Key}`)
+    });
+    callback(err, err ? undefined : imageUrlList);
   });
 };

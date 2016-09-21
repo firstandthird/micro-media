@@ -1,4 +1,5 @@
 debug: true
+s3Host: "https://s3.amazonaws.com"
 s3:
   bucket: '{{ENV.AWS_BUCKET}}'
   accessKey: '{{ENV.AWS_ACCESS_KEY_ID}}'
