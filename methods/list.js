@@ -6,6 +6,8 @@ module.exports = function(callback) {
   const s3Options = {};
   s3Options.Bucket = options.s3Bucket;
   s3.listObjectsV2(s3Options, (err, data) => {
-    callback(err, err ? undefined : data.Contents);
+    callback(err, err ? undefined : data.Contents.map((imageOnS3) => {
+      return `${this.settings.app.s3Host}/${options.s3Bucket}/${imageOnS3.Key}`;
+    }));
   });
 };
