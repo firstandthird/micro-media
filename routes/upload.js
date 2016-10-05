@@ -12,9 +12,9 @@ module.exports.upload = {
     request.payload.file.path = request.payload.file.hapi.filename
     request.server.methods.upload(request.payload.file, (err, result) => {
       if (err) {
-        request.server.log(err);
+        request.server.log(['error'], err);
         // todo: smarter error code?
-        return reply('Not Found').code(500);
+        return reply(err);
       }
       return reply(result);
     });
