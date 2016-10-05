@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <link  href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"> </script>
+    <style>
+      img {
+        max-width: 100%; /* This rule is very important, please do not ignore this! */
+      }
+    </style>
+    <script>
+    var cropper;
+    var detail;
+    $(document).ready(function() {
+      image = document.getElementById('image');
+      cropper = new Cropper(image, {
+        aspectRatio: 16 / 9,
+        crop: function(e) {
+          // send signal
+          detail = e.detail;
+        }
+      });
+    });
+    var next = function() {
+      document.location = '/api/media';
+    }
+    var crop = function() {
+      var queryString = '/' + detail.width + '/' + detail.height + '/' + encodeURIComponent(detail.x) + '/' + encodeURIComponent(detail.y);
+      // get the image data as src and send to mediamanager:
+      $.post('/api/crop/{{ image_base }}' + queryString, {}, function(data, status) {
+        if (status === 'success') {
+          alert("Cropped version available at " + data.Location)
+        }
+      });
+    }
+    </script>
+  </head>
+  <body>
+    <div>
+      <img id="image" src="{{ image_url }}" >
+    </div>
+  </body>
+  <button onclick="next()">
+    Skip Crop
+  </button>
+  <button onclick="crop()">
+    Crop and Save
+  </button>
+</html>

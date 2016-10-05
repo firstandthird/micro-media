@@ -16,6 +16,7 @@
   "dependencies": {
     "aws-sdk": "^2.6.1",
     "handlebars": "^4.0.5",
+    "joi": "^9.1.0",
     "rapptor": "1.1.0",
     "s3put": "^1.0.0",
     "vision": "^4.1.0"
