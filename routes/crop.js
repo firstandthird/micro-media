@@ -20,7 +20,7 @@ module.exports.crop = {
   },
   handler: (request, reply) => {
     request.server.methods.crop(request.params.imageKey, {
-      imagemagick: true,
+      imagemagick: request.server.settings.app.useImagemagick,
       position: [request.params.x, request.params.y],
       size: [request.params.width, request.params.height]
     }, (err, result) => {
