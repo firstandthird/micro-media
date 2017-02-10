@@ -10,7 +10,12 @@ s3:
 plugins:
   vision:
     _priority: -5
+  hapi-auto-handler:
+    _priority: -5
+  hapi-method-loader:
+    _enabled: false
   hapi-upload-s3:
+    _priority: -6
     bucket: '{{s3.bucket}}'
     accessKey: '{{s3.accessKey}}'
     secretAccessKey: '{{s3.secretAccessKey}}'

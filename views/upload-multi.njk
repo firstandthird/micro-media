@@ -6,7 +6,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.css"/>
   </head>
   <body>
-    <form action="/api/upload?{{ options }}" class="dropzone" id="my-awesome-dropzone"></form>
+    <form id="uploader" action="/api/upload?{{ options }}" class="dropzone"></form>
+    <div id="results"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/min/dropzone.min.js"></script>
+    <script src="https://unpkg.com/domassist@1.6.0"></script>
+    <script>
+      Dropzone.options.uploader = {
+        complete(file) {
+          if (file.status !== 'success') {
+            return alert('there was an error'); // eslint-disable-line no-alert
+          }
+
+          var response = file.xhr.response;
+          var obj = JSON.parse(response);
+
+          var imgContainer = document.createElement('div');
+
+          var img = document.createElement('img');
+          img.setAttribute('src', obj.Location);
+          img.setAttribute('height', 200);
+
+          var input = document.createElement('input');
+          input.value = obj.Location;
+          input.setAttribute('readonly', 'readonly');
+          input.addEventListener('focus', function() {
+            this.select();
+          });
+
+          imgContainer.appendChild(img);
+          imgContainer.appendChild(input);
+
+
+          document.getElementById('results').appendChild(imgContainer);
+        }
+      };
+    </script>
   </body>
 </html>
