@@ -1,0 +1,42 @@
+#!/bin/bash
+
+NAME=micromedia_app_1
+CMD=$1
+
+if [[ -z "$CMD" ]]; then
+  docker-compose up
+  exit
+fi
+
+if [[ "$CMD" == "install" ]]; then
+  npm install
+  npm prune
+  exit
+fi
+
+if [[ "$CMD" == "shell" ]]; then
+  docker-compose run --rm app sh
+  exit
+fi
+
+if [[ "$CMD" == "enter" ]]; then
+  docker exec -it $NAME sh
+  exit
+fi
+
+if [[ "$CMD" == "lint" ]]; then
+  docker-compose run --rm app npm run lint
+  exit
+fi
+
+if [[ "$CMD" == "test" ]]; then
+  docker exec -it $NAME npm test
+  exit
+fi
+
+if [[ "$CMD" == "build" ]]; then
+  docker-compose build
+  exit
+fi
+
+docker-compose $@

@@ -6,10 +6,13 @@ s3:
   secretAccessKey: '{{ENV.AWS_SECRET_ACCESS_KEY}}'
   region: '{{ENV.AWS_DEFAULT_REGION}}'
   profile: '{{ENV.AWS_PROFILE}}'
-views:
-  engines:
-    html: 'handlebars'
-  path: 'public'
+
 plugins:
   vision:
-    _priority: -1
+    _priority: -5
+  hapi-upload-s3:
+    bucket: '{{s3.bucket}}'
+    accessKey: '{{s3.accessKey}}'
+    secretAccessKey: '{{s3.secretAccessKey}}'
+    region: '{{s3.region}}'
+    profile: 'default'

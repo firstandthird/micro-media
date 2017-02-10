@@ -1,12 +1,19 @@
 {
-  "verbose": true,
+  "delay": "1000",
+  "verbose": false,
+  "ignore": [
+    ".git",
+    "node_modules",
+    "public/_dist"
+  ],
   "watch": [
-    "index.js",
+    "package.json",
     "routes/**/*.js",
     "methods/**/*.js",
     "plugins/**/*.js",
-    "conf/*.yaml",
-    "public/**/*.html"
+    "helpers/**/*.js",
+    "views/**/*.njk",
+    "conf/*.yaml"
   ],
-  "ext": "js json html yaml"
+  "ext": "js yaml njk"
 }

@@ -3,11 +3,11 @@ app:
   command: 'npm run dev'
   volumes:
     - '.:/app'
-    - '/app/node_modules'
   environment:
     PORT: 8080
+    VIRTUAL_HOST: 'media.*'
     AWS_ACCESS_KEY_ID:
     AWS_BUCKET:
     AWS_SECRET_ACCESS_KEY:
   ports:
-    - '8080:8080'
+    - '8080'

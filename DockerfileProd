@@ -1,18 +1,1 @@
-FROM mhart/alpine-node:4.5
-
-RUN apk add --update git
-
-RUN npm i -g bower nodemon
-
-ADD package.json /app/
-RUN cd /app && npm install
-
-ADD bower.json /app/bower.json
-RUN cd /app && bower install --allow-root
-
-ADD . /app/
-WORKDIR /app/
-
-RUN ./node_modules/.bin/clientkit
-
-CMD [ "npm", "start" ]
+FROM firstandthird/node:prod-6.7-2
