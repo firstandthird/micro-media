@@ -1,5 +1,4 @@
 debug: true
-s3Host: "https://s3.amazonaws.com"
 s3:
   bucket: '{{ENV.AWS_BUCKET}}'
   accessKey: '{{ENV.AWS_ACCESS_KEY_ID}}'
@@ -7,8 +6,10 @@ s3:
   region: '{{ENV.AWS_DEFAULT_REGION}}'
   profile: '{{ENV.AWS_PROFILE}}'
 
+s3Host: "{{ENV.S3_HOST}}"
 quality: '{{ENV.QUALITY || 80}}'
 folder: '{{ENV.FOLDER}}'
+public: '{{(ENV.PUBLIC == "1")}}'
 plugins:
   vision:
     _priority: -5

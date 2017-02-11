@@ -42,8 +42,9 @@ exports.upload = {
       s3Options(request, filename, settings, done) {
         done(null, {
           folder: request.query.folder || settings.folder,
-          public: (request.query.public),
-          path: filename
+          public: request.query.public || settings.public,
+          path: filename,
+          host: settings.s3Host
         });
       },
       s3(server, minBuffer, filename, s3Options, done) {
