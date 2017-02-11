@@ -9,6 +9,7 @@ exports.upload = {
   config: {
     payload: {
       output: 'file',
+      maxBytes: 10 * (1024 * 1024), // convert to bytes for hapi
       parse: true
     }
   },
