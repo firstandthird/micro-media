@@ -22,3 +22,4 @@ plugins:
     secretAccessKey: '{{s3.secretAccessKey}}'
     region: '{{s3.region}}'
     profile: 'default'
+    maxUploadSize: 30
