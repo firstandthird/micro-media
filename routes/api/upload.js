@@ -39,9 +39,9 @@ exports.upload = {
           done(err);
         });
       },
-      s3Options(request, filename, done) {
+      s3Options(request, filename, settings, done) {
         done(null, {
-          folder: request.query.folder,
+          folder: request.query.folder || settings.folder,
           public: (request.query.public),
           path: filename
         });
