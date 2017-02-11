@@ -23,8 +23,8 @@ exports.upload = {
       filename(payload, done) {
         done(null, payload.file.filename);
       },
-      quality(request, done) {
-        const quality = request.query.quality || 80;
+      quality(request, settings, done) {
+        const quality = request.query.quality || settings.quality;
         done(null, quality);
       },
       minBuffer(filepath, quality, done) {

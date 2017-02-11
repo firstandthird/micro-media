@@ -7,6 +7,7 @@ s3:
   region: '{{ENV.AWS_DEFAULT_REGION}}'
   profile: '{{ENV.AWS_PROFILE}}'
 
+quality: '{{ENV.QUALITY || 80}}'
 plugins:
   vision:
     _priority: -5
