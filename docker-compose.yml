@@ -9,5 +9,8 @@ app:
     AWS_ACCESS_KEY_ID:
     AWS_BUCKET:
     AWS_SECRET_ACCESS_KEY:
+    S3_HOST:
+    PUBLIC:
+    FOLDER:
   ports:
     - '8080'
