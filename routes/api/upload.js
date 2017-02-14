@@ -2,6 +2,8 @@ const imagemin = require('imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const imageminPngquant = require('imagemin-pngquant');
 const fs = require('fs');
+const Jimp = require('jimp');
+const TinyColor = require('tinycolor2');
 
 exports.upload = {
   method: 'POST',
@@ -28,14 +30,37 @@ exports.upload = {
         const quality = request.query.quality || settings.quality;
         done(null, quality);
       },
-      minBuffer(filepath, quality, done) {
-        imagemin([filepath], {
+      buffer(filepath, done) {
+        fs.readFile(filepath, done);
+      },
+      jimpImage(buffer, request, done) {
+        if (!request.query.resize) {
+          return done();
+        }
+        Jimp.read(buffer, done);
+      },
+      resizeBuffer(request, buffer, jimpImage, done) {
+        if (!jimpImage) {
+          return done(null, buffer);
+        }
+        const { resize, width, height, background } = request.query;
+
+        jimpImage[resize](parseInt(width, 10), parseInt(height, 10));
+        if (background) {
+          const color = new TinyColor(background);
+          jimpImage.background(parseInt(color.toHex8(), 16));
+        }
+
+        jimpImage.getBuffer(Jimp.AUTO, done);
+      },
+      minBuffer(resizeBuffer, quality, done) {
+        imagemin.buffer(resizeBuffer, {
           plugins: [
             imageminMozjpeg({ quality }),
             imageminPngquant({ quality })
           ]
         }).then(out => {
-          done(null, out[0].data);
+          done(null, out);
         }, (err) => {
           done(err);
         });

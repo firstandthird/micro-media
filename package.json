@@ -27,8 +27,10 @@
     "imagemin-mozjpeg": "^6.0.0",
     "imagemin-pngquant": "^5.0.0",
     "imagemin-svgo": "^5.2.0",
+    "jimp": "0.2.27",
     "joi": "10.2.2",
     "rapptor": "1.7.0",
+    "tinycolor2": "^1.4.1",
     "vision": "4.1.1",
     "vision-nunjucks": "1.0.0"
   },
