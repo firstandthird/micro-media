@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/firstandthird/micro-media#readme",
   "dependencies": {
-    "aws-sdk": "2.11.0",
+    "aws-sdk": "2.13.0",
     "hapi-auto-handler": "^1.2.2",
     "hapi-nunjucks-helpers": "2.0.0",
     "hapi-upload-s3": "2.2.0",
