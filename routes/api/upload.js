@@ -45,7 +45,8 @@ exports.upload = {
           folder: request.query.folder || settings.folder,
           public: request.query.public || settings.public,
           path: filename,
-          host: settings.s3Host
+          host: settings.s3Host,
+          maxAge: settings.maxAge
         });
       },
       s3(server, minBuffer, filename, s3Options, done) {
