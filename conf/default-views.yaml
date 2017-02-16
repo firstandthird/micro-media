@@ -5,10 +5,9 @@ views:
   defaultExtension: 'njk'
   compileMode: 'async'
 
-#assets:
-  #path: 'public'
-  #dist: '_dist/'
-  #endpoint: '/ui'
+assets:
+  path: 'public/_dist'
+  endpoint: '/ui'
 
 #plugins:
   #hapi-nunjucks-helpers:

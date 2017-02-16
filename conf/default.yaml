@@ -14,6 +14,8 @@ maxAge: 31536000
 plugins:
   vision:
     _priority: -5
+  inert:
+    _priority: -5
   hapi-auto-handler:
     _priority: -5
   hapi-method-loader:
@@ -26,3 +28,4 @@ plugins:
     region: '{{s3.region}}'
     profile: 'default'
     maxUploadSize: 30
+

@@ -24,6 +24,11 @@ if [[ "$CMD" == "enter" ]]; then
   exit
 fi
 
+if [[ "$CMD" == "prod" ]]; then
+  docker-compose run --rm app npm run prod
+  exit
+fi
+
 if [[ "$CMD" == "lint" ]]; then
   docker-compose run --rm app npm run lint
   exit

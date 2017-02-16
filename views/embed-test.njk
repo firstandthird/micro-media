@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MicroMedia Embed Test</title>
+  </head>
+  <body >
+    <h3>Multi Upload</h3>
+    <iframe src="/upload-multi" width="600px" height="200px"></iframe>
+    <h3>Single Upload</h3>
+    <iframe src="/upload-single" width="600px" height="200px"></iframe>
+    <script>
+      window.microMediaUpload = function(location) {
+        console.log(location);
+      }
+    </script>
+  </body>
+</html>
