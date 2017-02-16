@@ -19,8 +19,8 @@ Dropzone.options.uploader = {
       backgroundImage: `url(${imageUrl})`,
       display: 'block'
     });
-    if (window.parent && typeof window.parent.microMediaUpload === 'function') {
-      window.parent.microMediaUpload(imageUrl);
+    if (window.parent) {
+      window.parent.postMessage(imageUrl, '*');
     }
   }
 };

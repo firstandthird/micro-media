@@ -22,8 +22,8 @@ Dropzone.options.uploader = {
     `;
 
     findOne('#results').insertAdjacentHTML('beforeend', img);
-    if (window.parent && typeof window.parent.microMediaUpload === 'function') {
-      window.parent.microMediaUpload(imageUrl);
+    if (window.parent) {
+      window.parent.postMessage(imageUrl, '*');
     }
   }
 };

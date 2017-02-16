@@ -10,9 +10,9 @@
     <h3>Single Upload</h3>
     <iframe src="/upload-single" width="600px" height="200px"></iframe>
     <script>
-      window.microMediaUpload = function(location) {
-        console.log(location);
-      }
+      window.addEventListener('message', function(event) {
+        console.log(event.data);
+      }, false);
     </script>
   </body>
 </html>
