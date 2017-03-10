@@ -1,6 +1,13 @@
 /* eslint-env browser */
 import Dropzone from 'dropzone';
-import { findOne, hide, styles } from 'domassist';
+import { on, show, hide, styles } from 'domassist';
+
+const sendMessage = function(event) {
+  if (!window.parent) {
+    return;
+  }
+  window.parent.postMessage(JSON.stringify(event), '*');
+};
 
 Dropzone.options.uploader = {
   uploadMultiple: false,
@@ -12,15 +19,27 @@ Dropzone.options.uploader = {
 
     const response = file.xhr.response;
     const obj = JSON.parse(response);
-    const imageUrl = obj.Location;
+    const imageUrl = obj.location;
 
-    hide(findOne('#uploader'));
-    styles(findOne('#results'), {
+    hide('#uploader');
+    styles('#results', {
       backgroundImage: `url(${imageUrl})`,
       display: 'block'
     });
-    if (window.parent) {
-      window.parent.postMessage(imageUrl, '*');
-    }
+    show('#clear');
+    const event = {
+      type: 'complete',
+      data: obj
+    };
+    sendMessage(event);
   }
 };
+
+on('#clear', 'click', () => {
+  show('#uploader');
+  hide(['#results', '#clear']);
+  const event = {
+    type: 'clear'
+  };
+  sendMessage(event);
+});

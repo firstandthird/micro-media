@@ -23,6 +23,17 @@ body {
     width: 100vw;
     height: 100vh;
   }
+
+  & .clear {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 36px;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
 }
 
 .upload-multi {
