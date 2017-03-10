@@ -4,6 +4,7 @@ const imageminPngquant = require('imagemin-pngquant');
 const fs = require('fs');
 const Jimp = require('jimp');
 const TinyColor = require('tinycolor2');
+const sizeOf = require('image-size');
 
 exports.upload = {
   method: 'POST',
@@ -77,11 +78,21 @@ exports.upload = {
       s3(server, minBuffer, filename, s3Options, done) {
         server.uploadToS3(minBuffer, s3Options, done);
       },
+      size(minBuffer, done) {
+        const size = sizeOf(minBuffer);
+        done(null, size);
+      },
       clean(minBuffer, filepath, done) {
         fs.unlink(filepath, done);
       },
-      reply(s3, done) {
-        done(null, s3);
+      reply(size, s3, done) {
+        done(null, {
+          location: s3.Location,
+          key: s3.Key,
+          width: size.width,
+          height: size.height,
+          expiration: s3.Expiration
+        });
       }
     }
   }
