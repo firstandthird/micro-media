@@ -12,6 +12,13 @@ const sendMessage = function(event) {
 Dropzone.options.uploader = {
   uploadMultiple: false,
   maxFiles: 1,
+  uploadprogress(file, progress) {
+    hide('#uploader');
+    show('#progress');
+    styles('#progress .bar', {
+      width: `${progress}%`
+    });
+  },
   complete(file) {
     if (file.status !== 'success') {
       return alert('there was an error'); // eslint-disable-line no-alert
@@ -21,7 +28,7 @@ Dropzone.options.uploader = {
     const obj = JSON.parse(response);
     const imageUrl = obj.location;
 
-    hide('#uploader');
+    hide(['#uploader', '#progress']);
     styles('#results', {
       backgroundImage: `url(${imageUrl})`,
       display: 'block'

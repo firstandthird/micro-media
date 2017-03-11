@@ -34,6 +34,19 @@ body {
     top: 5px;
     right: 5px;
   }
+  & .progress {
+    width: 50%;
+    height: 30px;
+    margin: 0 auto;
+    margin-top: calc(50vh - 30px);
+    vertical-align: middle;
+    border: 1px solid #ccc;
+    padding: 2px;
+    & .bar {
+      background-color: #333;
+      height: 100%;
+    }
+  }
 }
 
 .upload-multi {
