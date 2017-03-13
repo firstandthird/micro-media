@@ -20,5 +20,7 @@ RUN npm install --silent --production
 
 COPY . /app
 
+ENV NODE_ENV production
+
 CMD ["npm", "start"]
 
