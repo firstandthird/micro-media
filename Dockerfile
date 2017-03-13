@@ -1,9 +1,24 @@
-FROM firstandthird/node:6.7
+FROM mhart/alpine-node:6.7
 
-RUN apk add --update libpng-dev \
-      autoconf \
-      automake \
-      make \
-      g++ \
-      libtool \
-      nasm
+RUN apk add --update \ 
+     git \
+     make \
+     gcc \
+     libpng-dev \
+     autoconf \
+     automake \
+     make \
+     g++ \
+     libtool \
+     nasm
+
+RUN mkdir -p /app
+WORKDIR /app
+
+COPY package.json /app
+RUN npm install --silent --production
+
+COPY . /app
+
+CMD ["npm", "start"]
+
