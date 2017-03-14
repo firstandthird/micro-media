@@ -10,7 +10,7 @@ Dropzone.options.uploader = {
 
     const response = file.xhr.response;
     const obj = JSON.parse(response);
-    const imageUrl = obj.Location;
+    const imageUrl = obj.location;
 
     hide(findOne('#uploader'));
 
