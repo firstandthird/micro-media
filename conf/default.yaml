@@ -10,7 +10,7 @@ s3Host: "{{ENV.S3_HOST}}"
 quality: '{{ENV.QUALITY || 80}}'
 folder: '{{ENV.FOLDER}}'
 public: '{{(ENV.PUBLIC == "1")}}'
-allowedExtensions: '{{ ENV.ALLOWED_EXTENSIONS || "" }}'
+allowedExtensions: '{{ ENV.ALLOWED_EXTENSIONS || ".jpg,.jpeg,.png"}}'
 maxAge: 31536000
 plugins:
   vision:
