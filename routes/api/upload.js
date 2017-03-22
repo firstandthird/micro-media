@@ -7,7 +7,10 @@ const fs = require('fs');
 const Jimp = require('jimp');
 const TinyColor = require('tinycolor2');
 const sizeOf = require('image-size');
-const imghdr = require('imghdr');
+const os = require('os');
+const Stream = require('stream').Transform;
+const path = require('path');
+const mime = require('mime-types');
 
 exports.upload = {
   method: 'POST',
@@ -21,55 +24,40 @@ exports.upload = {
   },
   handler: {
     autoInject: {
-      payload(request, done) {
+      saveUrl(request, done) {
+        // if it's just a file upload then skip this step:
         if (!request.query.url) {
-          return done(null, request.payload);
+          return done();
         }
-        // const filename = URL.pathname(request.query.url);
-        const file1 = fs.createWriteStream(request.payload.path);
+        // fetch the url and write it as a temp file:
         http.get(request.query.url, (response) => {
-          // response.on('data', (chunk) => {
-          //   console.log('chunk!')
-          //   body.write(chunk);
-          //
-          // });
-          response.on('end', () => {
-            const body = new Buffer(response.read());
-            console.log('done so:')
-            console.log(body)
-            // console.log(body.length)
-            const r = imghdr.what(body);
-            console.log('hey')
-            console.log(r)
-            done();
+          const ext = mime.extension(response.headers['content-type']);
+          const filename = path.join(os.tmpdir(), `${Math.random()}.${ext}`);
+          const dataStream = new Stream();
+          response.on('data', (chunk) => {
+            dataStream.push(chunk);
           });
-          // response.pipe(file1);
-          // response.on('end', (err) => {
-          //   const buffer = data.read();
-          //   const exts = imghdr.what(buffer);
-          //   if (exts.length === 0) {
-          //     return done(new Error('could not recognize mime type for ${request.query.url}'));
-          //   }
-          //   console.log('it is:')
-          //   console.log(buffer)
-          //   console.log(exts)
-          //   const newFile = `${request.payload.path}.${exts[0]}`
-          //   fs.writeFile()
-          // })
-            // done(err, {
-            //   file: {
-            //     path: request.payload.path,
-            //     filename
-            //   }
-          // }));
-          // response.pipe(file1);
+          response.on('end', () => {
+            fs.writeFile(filename, dataStream.read(), (err) => {
+              if (err) {
+                return done(err);
+              }
+              return done(null, filename);
+            });
+          });
         });
       },
-      filepath(payload, done) {
-        done(null, payload.file.path);
+      filename(request, saveUrl, done) {
+        if (!request.query.url) {
+          return done(null, request.payload.file.filename);
+        }
+        return done(null, path.basename(saveUrl));
       },
-      filename(payload, done) {
-        done(null, payload.file.filename);
+      filepath(request, saveUrl, done) {
+        if (!request.query.url) {
+          return done(null, request.payload.file.path);
+        }
+        return done(null, saveUrl);
       },
       quality(request, settings, done) {
         const quality = request.query.quality || settings.quality;
