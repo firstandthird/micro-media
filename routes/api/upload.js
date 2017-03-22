@@ -27,6 +27,11 @@ exports.upload = {
       filename(payload, done) {
         done(null, payload.file.filename);
       },
+      restrict(settings, filename, done) {
+        console.log('restrition check');
+        console.log(Object.keys(settings));
+        console.log(Object.keys(settings.allowedExtensions));
+      },
       quality(request, settings, done) {
         const quality = request.query.quality || settings.quality;
         done(null, quality);
