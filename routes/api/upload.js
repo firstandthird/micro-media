@@ -1,3 +1,4 @@
+'use strict';
 const imagemin = require('imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const imageminPngquant = require('imagemin-pngquant');
@@ -5,6 +6,7 @@ const fs = require('fs');
 const Jimp = require('jimp');
 const TinyColor = require('tinycolor2');
 const sizeOf = require('image-size');
+const path = require('path');
 
 exports.upload = {
   method: 'POST',
@@ -21,16 +23,20 @@ exports.upload = {
       payload(request, done) {
         done(null, request.payload);
       },
-      filepath(payload, done) {
+      restrict(settings, filename, done) {
+        // allowed variables is specified as a comma-separated string:
+        const allowedExtensions = settings.allowedExtensions.split(',');
+        const ext = path.extname(filename);
+        if (allowedExtensions.indexOf(ext) > -1) {
+          return done(null, true);
+        }
+        return done(new Error(`Type ${ext} is not allowed`));
+      },
+      filepath(payload, restrict, done) {
         done(null, payload.file.path);
       },
       filename(payload, done) {
         done(null, payload.file.filename);
-      },
-      restrict(settings, filename, done) {
-        console.log('restrition check');
-        console.log(Object.keys(settings));
-        console.log(Object.keys(settings.allowedExtensions));
       },
       quality(request, settings, done) {
         const quality = request.query.quality || settings.quality;
