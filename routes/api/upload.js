@@ -11,6 +11,7 @@ const os = require('os');
 const Stream = require('stream').Transform;
 const path = require('path');
 const mime = require('mime-types');
+const boom = require('boom');
 
 exports.upload = {
   method: 'POST',
@@ -31,6 +32,9 @@ exports.upload = {
         }
         // fetch the url and write it as a temp file:
         http.get(request.query.url, (response) => {
+          if (response.statusCode !== 200) {
+            return done(boom.create(response.statusCode, `URL ${request.query.url} returned HTTP status code ${response.statusCode}`));
+          }
           const ext = mime.extension(response.headers['content-type']);
           const filename = path.join(os.tmpdir(), `${Math.random()}.${ext}`);
           const dataStream = new Stream();
