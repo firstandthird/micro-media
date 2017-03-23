@@ -19,12 +19,17 @@ exports.upload = {
   handler: {
     autoInject: {
       payload(request, done) {
+        console.log('pay')
+        console.log(request.payload)
         done(null, request.payload);
       },
       filepath(payload, done) {
+        console.log('===')
         done(null, payload.file.path);
       },
       filename(payload, done) {
+        console.log('_')
+        console.log(payload.file.filename)
         done(null, payload.file.filename);
       },
       quality(request, settings, done) {

@@ -21,11 +21,11 @@ tap.afterEach((done) => {
     done();
   });
 });
-
 tap.test('can POST to /upload', (assert) => {
-  const file = fs.readFileSync(path.join(__dirname, 'RandomBitmap.png'));
-  wreck.post('http://localhost:8080/upload', { payload: { file } }, (err, response) => {
-    assert.equal(err, null, 'does not error');
+  // const file = fs.readFileSync(path.join(__dirname, 'RandomBitmap.png'));
+  const fileStream = fs.createReadStream(path.join(__dirname, 'RandomBitmap.png'));
+  wreck.post('http://localhost:8080/upload', { payload: fileStream }, (err, response) => {
+    // assert.equal(err, null, 'does not error');
     assert.end();
   });
 });
