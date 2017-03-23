@@ -13,7 +13,6 @@ public: '{{(ENV.PUBLIC == "1")}}'
 maxAge: 31536000
 plugins:
   lout:
-    endpoint: '/lout'
   vision:
     _priority: -5
   inert:
