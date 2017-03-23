@@ -5,11 +5,25 @@ const fs = require('fs');
 const Jimp = require('jimp');
 const TinyColor = require('tinycolor2');
 const sizeOf = require('image-size');
+const Joi = require('joi');
 
 exports.upload = {
   method: 'POST',
   path: 'upload',
   config: {
+    validate: {
+      query: {
+        resize: Joi.number(),
+        quality: Joi.number(),
+        folder: Joi.string(),
+        public: Joi.string()
+      },
+      payload: {
+        file: Joi.binary(),
+        path: Joi.string(),
+        filename: Joi.string()
+      }
+    },
     payload: {
       output: 'file',
       maxBytes: 10 * (1024 * 1024), // convert to bytes for hapi
