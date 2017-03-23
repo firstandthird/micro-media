@@ -12,6 +12,7 @@ folder: '{{ENV.FOLDER}}'
 public: '{{(ENV.PUBLIC == "1")}}'
 maxAge: 31536000
 plugins:
+  lout:
   vision:
     _priority: -5
   inert:
@@ -28,4 +29,3 @@ plugins:
     region: '{{s3.region}}'
     profile: 'default'
     maxUploadSize: 30
-
