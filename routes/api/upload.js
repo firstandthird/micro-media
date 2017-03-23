@@ -115,8 +115,12 @@ exports.upload = {
         server.uploadToS3(minBuffer, s3Options, done);
       },
       size(minBuffer, done) {
-        const size = sizeOf(minBuffer);
-        done(null, size);
+        try {
+          const size = sizeOf(minBuffer);
+          return done(null, size);
+        } catch (e) {
+          return done(null, { width: 'unknown', height: 'unknown' });
+        }
       },
       clean(minBuffer, filepath, done) {
         fs.unlink(filepath, done);
