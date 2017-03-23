@@ -4,6 +4,7 @@
   "description": "Site to manage media (images, pdfs, etc). Store in s3",
   "scripts": {
     "start": "rapptor",
+    "test": "tap test/*.js | tap-spec",
     "dev": "npm install && concurrently 'npm run dev:server' 'npm run dev:clientkit'",
     "dev:server": "nodemon",
     "dev:clientkit": "clientkit dev --color",
@@ -47,7 +48,10 @@
     "eslint": "3.15.0",
     "eslint-config-firstandthird": "3.2.0",
     "eslint-plugin-import": "2.2.0",
-    "nodemon": "1.11.0"
+    "nodemon": "1.11.0",
+    "tap": "^10.3.0",
+    "tap-spec": "^4.1.1",
+    "wreck": "^11.0.0"
   },
   "eslintConfig": {
     "extends": "firstandthird"
