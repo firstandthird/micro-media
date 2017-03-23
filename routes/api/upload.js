@@ -3,6 +3,7 @@ const http = require('http');
 const imagemin = require('imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const imageminPngquant = require('imagemin-pngquant');
+const imageminSvgo = require('imagemin-svgo');
 const fs = require('fs');
 const Jimp = require('jimp');
 const TinyColor = require('tinycolor2');
@@ -94,7 +95,8 @@ exports.upload = {
         imagemin.buffer(resizeBuffer, {
           plugins: [
             imageminMozjpeg({ quality }),
-            imageminPngquant({ quality })
+            imageminPngquant({ quality }),
+            imageminSvgo({ quality })
           ]
         }).then(out => {
           done(null, out);

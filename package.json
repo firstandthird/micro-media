@@ -30,7 +30,7 @@
     "imagemin": "5.2.2",
     "imagemin-mozjpeg": "6.0.0",
     "imagemin-pngquant": "5.0.0",
-    "imagemin-svgo": "5.2.0",
+    "imagemin-svgo": "^5.2.0",
     "inert": "4.1.0",
     "jimp": "0.2.27",
     "joi": "10.2.2",
