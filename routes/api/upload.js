@@ -1,3 +1,5 @@
+'use strict';
+const http = require('http');
 const imagemin = require('imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const imageminPngquant = require('imagemin-pngquant');
@@ -5,6 +7,11 @@ const fs = require('fs');
 const Jimp = require('jimp');
 const TinyColor = require('tinycolor2');
 const sizeOf = require('image-size');
+const os = require('os');
+const Stream = require('stream').Transform;
+const path = require('path');
+const mime = require('mime-types');
+const boom = require('boom');
 
 exports.upload = {
   method: 'POST',
@@ -18,14 +25,43 @@ exports.upload = {
   },
   handler: {
     autoInject: {
-      payload(request, done) {
-        done(null, request.payload);
+      saveUrl(request, done) {
+        // if it's just a file upload then skip this step:
+        if (!request.query.url) {
+          return done();
+        }
+        // fetch the url and write it as a temp file:
+        http.get(request.query.url, (response) => {
+          if (response.statusCode !== 200) {
+            return done(boom.create(response.statusCode, `URL ${request.query.url} returned HTTP status code ${response.statusCode}`));
+          }
+          const ext = mime.extension(response.headers['content-type']);
+          const filename = path.join(os.tmpdir(), `${Math.random()}.${ext}`);
+          const dataStream = new Stream();
+          response.on('data', (chunk) => {
+            dataStream.push(chunk);
+          });
+          response.on('end', () => {
+            fs.writeFile(filename, dataStream.read(), (err) => {
+              if (err) {
+                return done(err);
+              }
+              return done(null, filename);
+            });
+          });
+        });
       },
-      filepath(payload, done) {
-        done(null, payload.file.path);
+      filename(request, saveUrl, done) {
+        if (!request.query.url) {
+          return done(null, request.payload.file.filename);
+        }
+        return done(null, path.basename(saveUrl));
       },
-      filename(payload, done) {
-        done(null, payload.file.filename);
+      filepath(request, saveUrl, done) {
+        if (!request.query.url) {
+          return done(null, request.payload.file.path);
+        }
+        return done(null, saveUrl);
       },
       quality(request, settings, done) {
         const quality = request.query.quality || settings.quality;
