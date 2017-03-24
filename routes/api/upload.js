@@ -8,6 +8,7 @@ const fs = require('fs');
 const Jimp = require('jimp');
 const TinyColor = require('tinycolor2');
 const sizeOf = require('image-size');
+const Joi = require('joi');
 const os = require('os');
 const Stream = require('stream').Transform;
 const path = require('path');
@@ -18,6 +19,18 @@ exports.upload = {
   method: 'POST',
   path: 'upload',
   config: {
+    validate: {
+      query: {
+        resize: Joi.string(),
+        width: Joi.number(),
+        height: Joi.number(),
+        background: Joi.string(),
+        quality: Joi.number(),
+        folder: Joi.string(),
+        public: Joi.string(),
+        url: Joi.string()
+      }
+    },
     payload: {
       output: 'file',
       maxBytes: 10 * (1024 * 1024), // convert to bytes for hapi
@@ -82,8 +95,7 @@ exports.upload = {
           return done(null, buffer);
         }
         const { resize, width, height, background } = request.query;
-
-        jimpImage[resize](parseInt(width, 10), parseInt(height, 10));
+        jimpImage[resize](width, height);
         if (background) {
           const color = new TinyColor(background);
           jimpImage.background(parseInt(color.toHex8(), 16));
