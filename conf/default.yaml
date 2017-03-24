@@ -13,6 +13,7 @@ public: '{{(ENV.PUBLIC == "1")}}'
 allowedExtensions: '{{ ENV.ALLOWED_EXTENSIONS || ".jpg,.jpeg,.png"}}'
 maxAge: 31536000
 plugins:
+  lout:
   vision:
     _priority: -5
   inert:

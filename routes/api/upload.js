@@ -1,17 +1,36 @@
 'use strict';
+const http = require('http');
 const imagemin = require('imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const imageminPngquant = require('imagemin-pngquant');
+const imageminSvgo = require('imagemin-svgo');
 const fs = require('fs');
 const Jimp = require('jimp');
 const TinyColor = require('tinycolor2');
 const sizeOf = require('image-size');
 const path = require('path');
+const Joi = require('joi');
+const os = require('os');
+const Stream = require('stream').Transform;
+const mime = require('mime-types');
+const boom = require('boom');
 
 exports.upload = {
   method: 'POST',
   path: 'upload',
   config: {
+    validate: {
+      query: {
+        resize: Joi.string(),
+        width: Joi.number(),
+        height: Joi.number(),
+        background: Joi.string(),
+        quality: Joi.number(),
+        folder: Joi.string(),
+        public: Joi.string(),
+        url: Joi.string()
+      }
+    },
     payload: {
       output: 'file',
       maxBytes: 10 * (1024 * 1024), // convert to bytes for hapi
@@ -20,23 +39,57 @@ exports.upload = {
   },
   handler: {
     autoInject: {
-      payload(request, done) {
-        done(null, request.payload);
-      },
-      restrict(settings, filename, done) {
-        // allowed variables is specified as a comma-separated string:
-        const allowedExtensions = settings.allowedExtensions.split(',');
-        const ext = path.extname(filename);
-        if (allowedExtensions.indexOf(ext) > -1) {
-          return done(null, true);
+      saveUrl(request, settings, done) {
+        // if it's just a file upload then skip this step:
+        if (!request.query.url) {
+          return done();
         }
-        return done(new Error(`Type ${ext} is not allowed`));
+        // fetch the file from url:
+        http.get(request.query.url, (response) => {
+          if (response.statusCode !== 200) {
+            return done(boom.create(response.statusCode, `URL ${request.query.url} returned HTTP status code ${response.statusCode}`));
+          }
+          // abort if that file extension is not allowed:
+          const ext = mime.extension(response.headers['content-type']);
+          const allowedExtensions = settings.allowedExtensions.split(',');
+          if (allowedExtensions.indexOf(`.${ext}`) === -1) {
+            return done(boom.forbidden(`Type ${ext} is not allowed`));
+          }
+          const filename = path.join(os.tmpdir(), `${Math.random()}.${ext}`);
+          const dataStream = new Stream();
+          response.on('data', (chunk) => {
+            dataStream.push(chunk);
+          });
+          response.on('end', () => {
+            fs.writeFile(filename, dataStream.read(), (err) => {
+              if (err) {
+                return done(err);
+              }
+              return done(null, filename);
+            });
+          });
+        });
       },
-      filepath(payload, restrict, done) {
-        done(null, payload.file.path);
+      filename(request, settings, saveUrl, done) {
+        if (!request.query.url) {
+          // if file upload, make sure that file extension is allowed:
+          const filename = request.payload.file.filename;
+          const ext = path.extname(filename);
+          const allowedExtensions = settings.allowedExtensions.split(',');
+          if (allowedExtensions.indexOf(ext) === -1) {
+            return done(boom.forbidden(`Type ${ext} is not allowed`));
+          }
+          return done(null, filename);
+        }
+        // if it's a URL download the file-extension was already checked
+        // before the temp file was saved:
+        return done(null, path.basename(saveUrl));
       },
-      filename(payload, done) {
-        done(null, payload.file.filename);
+      filepath(request, saveUrl, done) {
+        if (!request.query.url) {
+          return done(null, request.payload.file.path);
+        }
+        return done(null, saveUrl);
       },
       quality(request, settings, done) {
         const quality = request.query.quality || settings.quality;
@@ -56,8 +109,7 @@ exports.upload = {
           return done(null, buffer);
         }
         const { resize, width, height, background } = request.query;
-
-        jimpImage[resize](parseInt(width, 10), parseInt(height, 10));
+        jimpImage[resize](width, height);
         if (background) {
           const color = new TinyColor(background);
           jimpImage.background(parseInt(color.toHex8(), 16));
@@ -69,7 +121,8 @@ exports.upload = {
         imagemin.buffer(resizeBuffer, {
           plugins: [
             imageminMozjpeg({ quality }),
-            imageminPngquant({ quality })
+            imageminPngquant({ quality }),
+            imageminSvgo({ quality })
           ]
         }).then(out => {
           done(null, out);
@@ -90,8 +143,12 @@ exports.upload = {
         server.uploadToS3(minBuffer, s3Options, done);
       },
       size(minBuffer, done) {
-        const size = sizeOf(minBuffer);
-        done(null, size);
+        try {
+          const size = sizeOf(minBuffer);
+          return done(null, size);
+        } catch (e) {
+          return done(null, { width: 'unknown', height: 'unknown' });
+        }
       },
       clean(minBuffer, filepath, done) {
         fs.unlink(filepath, done);
