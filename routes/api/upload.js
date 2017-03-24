@@ -70,26 +70,26 @@ exports.upload = {
           });
         });
       },
-      filename(request, settings, saveUrl, done) {
+      filepath(request, saveUrl, done) {
+        if (!request.query.url) {
+          return done(null, request.payload.file.path);
+        }
+        return done(null, saveUrl);
+      },
+      filename(request, settings, saveUrl, filepath, done) {
         if (!request.query.url) {
           // if file upload, make sure that file extension is allowed:
           const filename = request.payload.file.filename;
           const ext = path.extname(filename);
           const allowedExtensions = settings.allowedExtensions.split(',');
           if (allowedExtensions.indexOf(ext) === -1) {
-            return done(boom.forbidden(`Type ${ext} is not allowed`));
+            return fs.unlink(filepath, () => done(boom.forbidden(`Type ${ext} is not allowed`)));
           }
           return done(null, filename);
         }
         // if it's a URL download the file-extension was already checked
         // before the temp file was saved:
         return done(null, path.basename(saveUrl));
-      },
-      filepath(request, saveUrl, done) {
-        if (!request.query.url) {
-          return done(null, request.payload.file.path);
-        }
-        return done(null, saveUrl);
       },
       quality(request, settings, done) {
         const quality = request.query.quality || settings.quality;
