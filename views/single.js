@@ -2,6 +2,8 @@
 import Dropzone from 'dropzone';
 import { on, show, hide, styles } from 'domassist';
 
+const opts = window.uploaderSetup;
+
 const sendMessage = function(event) {
   if (!window.parent) {
     return;
@@ -38,6 +40,9 @@ Dropzone.options.uploader = {
       type: 'complete',
       data: obj
     };
+    if (opts.inputId) {
+      event.inputId = opts.inputId;
+    }
     sendMessage(event);
   }
 };
