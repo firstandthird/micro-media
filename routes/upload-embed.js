@@ -14,7 +14,8 @@ exports.uploadSingle = {
   method: 'GET',
   handler(request, reply) {
     reply.view('upload-single', {
-      options: querystring.stringify(request.query)
+      options: querystring.stringify(request.query),
+      opts: request.query
     });
   }
 };

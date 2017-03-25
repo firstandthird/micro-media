@@ -10,6 +10,13 @@
     <form id="uploader" action="/api/upload?{{ options }}" class="dropzone"></form>
     <div class="progress" id="progress"><div class="bar"></div></div>
     <div id="results"></div>
+    <script type="text/javascript">
+      window.uploaderSetup = {
+        {% if opts.inputId -%}
+        inputId: '{{ opts.inputId }}'
+        {%- endif %}
+      };
+    </script>
     <script src="/ui/single.js"></script>
   </body>
 </html>
