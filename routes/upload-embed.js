@@ -1,5 +1,4 @@
 const querystring = require('querystring');
-const hoek = require('hoek');
 exports.uploadMulti = {
   path: '/upload-multi',
   method: 'GET',
@@ -14,15 +13,13 @@ exports.uploadSingle = {
   path: '/upload-single',
   method: 'GET',
   handler(request, reply) {
-    const fullOptions = hoek.clone(request.query);
-    const uploadOptions = hoek.clone(request.query);
-    if (uploadOptions.inputId) {
-      delete uploadOptions.inputId;
-    }
+    const options = Object.assign({}, request.query);
+    const inputId = options.inputId;
+    delete options.inputId;
     
     reply.view('upload-single', {
-      options: querystring.stringify(uploadOptions),
-      opts: fullOptions
+      options: querystring.stringify(options),
+      inputId
     });
   }
 };
