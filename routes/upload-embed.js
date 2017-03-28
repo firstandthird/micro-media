@@ -1,5 +1,5 @@
 const querystring = require('querystring');
-const pick = require('lodash.pick');
+const hoek = require('hoek');
 exports.uploadMulti = {
   path: '/upload-multi',
   method: 'GET',
@@ -14,8 +14,12 @@ exports.uploadSingle = {
   path: '/upload-single',
   method: 'GET',
   handler(request, reply) {
-    const fullOptions = request.query;
-    const uploadOptions = pick(request.query, ['resize', 'width', 'height', 'background', 'quality', 'folder', 'public', 'url']);
+    const fullOptions = hoek.clone(request.query);
+    const uploadOptions = hoek.clone(request.query);
+    if (uploadOptions.inputId) {
+      delete uploadOptions.inputId;
+    }
+    
     reply.view('upload-single', {
       options: querystring.stringify(uploadOptions),
       opts: fullOptions
