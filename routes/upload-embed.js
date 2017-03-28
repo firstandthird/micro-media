@@ -13,9 +13,13 @@ exports.uploadSingle = {
   path: '/upload-single',
   method: 'GET',
   handler(request, reply) {
+    const options = Object.assign({}, request.query);
+    const inputId = options.inputId;
+    delete options.inputId;
+    
     reply.view('upload-single', {
-      options: querystring.stringify(request.query),
-      opts: request.query
+      options: querystring.stringify(options),
+      inputId
     });
   }
 };
