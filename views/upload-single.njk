@@ -4,6 +4,14 @@
     <meta charset="utf-8" />
     <title>MicroMedia Upload Single</title>
     <link rel="stylesheet" href="/ui/common.css"/>
+    <style>
+      {% if barColor %}
+      .upload-single .progress .bar { background-color: {{ barColor }}; }
+      {% endif %}
+      {% if bgColor %}
+      body { background-color: {{ bgColor }}; }
+      {% endif %}
+    </style>
   </head>
   <body class="upload-single">
     <button class="clear" id="clear">&times;</button>
