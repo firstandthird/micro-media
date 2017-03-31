@@ -67,7 +67,8 @@ exports.upload = {
       },
       filename(request, saveUrl, done) {
         if (!request.query.url) {
-          return done(null, request.payload.file.filename);
+          const fname = request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
+          return done(null, fname);
         }
         return done(null, path.basename(saveUrl));
       },
