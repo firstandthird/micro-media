@@ -34,11 +34,17 @@ body {
     top: 5px;
     right: 5px;
   }
+  & .status-container {
+    width: 50%;
+    margin: 0 auto;
+    margin-top: calc(50vh - 40px);
+    font-size: 1.5em;
+    margin-bottom: 8px;
+  }
   & .progress {
     width: 50%;
     height: 30px;
     margin: 0 auto;
-    margin-top: calc(50vh - 30px);
     vertical-align: middle;
     border: 1px solid #ccc;
     padding: 2px;

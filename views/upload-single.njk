@@ -16,6 +16,7 @@
   <body class="upload-single">
     <button class="clear" id="clear">&times;</button>
     <form id="uploader" action="/api/upload?{{ options }}" class="dropzone"></form>
+    <div class="status-container" id="status">Uploading...</div>
     <div class="progress" id="progress"><div class="bar"></div></div>
     <div id="results"></div>
     <script type="text/javascript">
