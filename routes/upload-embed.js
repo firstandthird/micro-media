@@ -14,12 +14,20 @@ exports.uploadSingle = {
   method: 'GET',
   handler(request, reply) {
     const options = Object.assign({}, request.query);
-    const inputId = options.inputId;
-    delete options.inputId;
     
+    const inputId = options.inputId;
+    const barColor = options.barColor;
+    const bgColor = options.bgColor;
+
+    delete options.inputId;
+    delete options.barColor;
+    delete options.bgColor;
+
     reply.view('upload-single', {
       options: querystring.stringify(options),
-      inputId
+      inputId,
+      barColor,
+      bgColor
     });
   }
 };
