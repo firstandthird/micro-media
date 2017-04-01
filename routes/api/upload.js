@@ -51,10 +51,6 @@ exports.upload = {
           }
           // abort if that file extension is not allowed:
           const ext = mime.extension(response.headers['content-type']);
-          const allowedExtensions = settings.allowedExtensions.split(',');
-          if (allowedExtensions.indexOf(`.${ext}`) === -1) {
-            return done(boom.forbidden(`Type ${ext} is not allowed`));
-          }
           const filename = path.join(os.tmpdir(), `${Math.random()}.${ext}`);
           const dataStream = new Stream();
           response.on('data', (chunk) => {
@@ -76,20 +72,14 @@ exports.upload = {
         }
         return done(null, saveUrl);
       },
-      filename(request, settings, saveUrl, filepath, done) {
-        if (!request.query.url) {
-          // if file upload, make sure that file extension is allowed:
-          const filename = request.payload.file.filename;
-          const ext = path.extname(filename);
-          const allowedExtensions = settings.allowedExtensions.split(',');
-          if (allowedExtensions.indexOf(ext) === -1) {
-            return fs.unlink(filepath, () => done(boom.forbidden(`Type ${ext} is not allowed`)));
-          }
-          return done(null, filename);
+      filename(request, settings, filepath, saveUrl, done) {
+        const filename = request.query.url ? path.basename(saveUrl) : request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
+        const ext = path.extname(filename);
+        const allowedExtensions = settings.allowedExtensions.split(',');
+        if (allowedExtensions.indexOf(ext) === -1) {
+          return fs.unlink(filepath, () => done(boom.forbidden(`Type ${ext} is not allowed`)));
         }
-        // if it's a URL download the file-extension was already checked
-        // before the temp file was saved:
-        return done(null, path.basename(saveUrl));
+        return done(null, filename);
       },
       quality(request, settings, done) {
         const quality = request.query.quality || settings.quality;
