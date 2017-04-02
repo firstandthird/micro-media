@@ -29,3 +29,4 @@ plugins:
     region: '{{s3.region}}'
     profile: 'default'
     maxUploadSize: 30
+  hapi-log-response:

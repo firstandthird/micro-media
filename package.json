@@ -25,6 +25,7 @@
   "dependencies": {
     "aws-sdk": "2.27.0",
     "hapi-auto-handler": "1.2.2",
+    "hapi-log-response": "1.0.0",
     "hapi-nunjucks-helpers": "2.2.0",
     "hapi-upload-s3": "2.2.0",
     "image-size": "0.5.1",
