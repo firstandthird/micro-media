@@ -13,6 +13,9 @@ public: '{{(ENV.PUBLIC == "1")}}'
 allowedExtensions: '{{ ENV.ALLOWED_EXTENSIONS || ".jpg,.jpeg,.png,.svg"}}'
 maxAge: 31536000
 plugins:
+  hapi-logr:
+    exclude:
+      - 'client'
   lout:
   vision:
     _priority: -5
@@ -30,3 +33,5 @@ plugins:
     region: '{{s3.region}}'
     profile: 'default'
     maxUploadSize: 30
+  hapi-log-response:
+  hapi-favicon:
