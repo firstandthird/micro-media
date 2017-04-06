@@ -8,10 +8,10 @@ const fs = require('fs');
 const Jimp = require('jimp');
 const TinyColor = require('tinycolor2');
 const sizeOf = require('image-size');
+const path = require('path');
 const Joi = require('joi');
 const os = require('os');
 const Stream = require('stream').Transform;
-const path = require('path');
 const mime = require('mime-types');
 const boom = require('boom');
 
@@ -39,16 +39,17 @@ exports.upload = {
   },
   handler: {
     autoInject: {
-      saveUrl(request, done) {
+      saveUrl(request, settings, done) {
         // if it's just a file upload then skip this step:
         if (!request.query.url) {
           return done();
         }
-        // fetch the url and write it as a temp file:
+        // fetch the file from url:
         http.get(request.query.url, (response) => {
           if (response.statusCode !== 200) {
             return done(boom.create(response.statusCode, `URL ${request.query.url} returned HTTP status code ${response.statusCode}`));
           }
+          // abort if that file extension is not allowed:
           const ext = mime.extension(response.headers['content-type']);
           const filename = path.join(os.tmpdir(), `${Math.random()}.${ext}`);
           const dataStream = new Stream();
@@ -65,18 +66,20 @@ exports.upload = {
           });
         });
       },
-      filename(request, saveUrl, done) {
-        if (!request.query.url) {
-          const fname = request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
-          return done(null, fname);
-        }
-        return done(null, path.basename(saveUrl));
-      },
       filepath(request, saveUrl, done) {
         if (!request.query.url) {
           return done(null, request.payload.file.path);
         }
         return done(null, saveUrl);
+      },
+      filename(request, settings, filepath, saveUrl, done) {
+        const filename = request.query.url ? path.basename(saveUrl) : request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
+        const ext = path.extname(filename);
+        const allowedExtensions = settings.allowedExtensions.split(',');
+        if (allowedExtensions.indexOf(ext) === -1) {
+          return fs.unlink(filepath, () => done(boom.forbidden(`Type ${ext} is not allowed`)));
+        }
+        return done(null, filename);
       },
       quality(request, settings, done) {
         const quality = request.query.quality || settings.quality;

@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/firstandthird/micro-media#readme",
   "dependencies": {
+    "boom": "^4.3.0",
     "aws-sdk": "2.38.0",
     "hapi-auto-handler": "1.2.3",
     "hapi-favicon": "1.0.0",
