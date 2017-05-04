@@ -15,6 +15,16 @@ body {
 .upload-single {
   overflow: hidden;
 
+  & form.dropzone {
+    & .dz-message span {
+      display: table-cell;
+      vertical-align: middle;
+      width: 100vw;
+      height: 100vh;
+      line-height: 1.4em;
+    }
+  }
+
   & #results {
     background-position: center;
     background-size: contain;

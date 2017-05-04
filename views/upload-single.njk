@@ -21,8 +21,12 @@
     <div id="results"></div>
     <script type="text/javascript">
       window.uploaderSetup = {
+        fileTypes: '{{ allowedFiles }}',
+        {% if defaultImage -%}
+        defaultImage: '{{ defaultImage }}',
+        {%- endif %}
         {% if inputId -%}
-        inputId: '{{ inputId }}'
+        inputId: '{{ inputId }}',
         {%- endif %}
       };
     </script>
