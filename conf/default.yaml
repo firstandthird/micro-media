@@ -35,3 +35,7 @@ plugins:
     maxUploadSize: 30
   hapi-log-response:
   hapi-favicon:
+  hapi-robots:
+    envs:
+      production:
+        '*': ['/']

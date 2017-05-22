@@ -13,9 +13,21 @@ const sendMessage = function(event) {
 
 let dropzone;
 
+const handleImage = function(imgSrc) {
+  hide(['#uploader', '#progress', '#status']);
+  styles('#results', {
+    backgroundImage: `url(${imgSrc})`,
+    display: 'block'
+  });
+  show('#clear');
+};
+
 Dropzone.options.uploader = {
   init() {
     dropzone = this;
+    if (opts.defaultImage) {
+      handleImage(opts.defaultImage);
+    }
   },
   uploadMultiple: false,
   maxFiles: 1,
@@ -45,13 +57,7 @@ Dropzone.options.uploader = {
     const response = file.xhr.response;
     const obj = JSON.parse(response);
     const imageUrl = obj.location;
-
-    hide(['#uploader', '#progress', '#status']);
-    styles('#results', {
-      backgroundImage: `url(${imageUrl})`,
-      display: 'block'
-    });
-    show('#clear');
+    handleImage(imageUrl);
 
     event.type = 'complete';
     event.data = obj;
@@ -60,7 +66,8 @@ Dropzone.options.uploader = {
       event.inputId = opts.inputId;
     }
     sendMessage(event);
-  }
+  },
+  dictDefaultMessage: `Drop files here or click to upload.<br />Accepted file types ${opts.fileTypes}`
 };
 
 on('#clear', 'click', () => {

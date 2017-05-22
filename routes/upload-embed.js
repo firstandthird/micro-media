@@ -13,21 +13,26 @@ exports.uploadSingle = {
   path: '/upload-single',
   method: 'GET',
   handler(request, reply) {
+    const allowedFiles = request.server.settings.app.allowedExtensions;
     const options = Object.assign({}, request.query);
-    
+
     const inputId = options.inputId;
     const barColor = options.barColor;
     const bgColor = options.bgColor;
+    const defaultImage = (options.defaultImage) ? options.defaultImage : false;
 
     delete options.inputId;
     delete options.barColor;
     delete options.bgColor;
+    delete options.defaultImage;
 
     reply.view('upload-single', {
       options: querystring.stringify(options),
       inputId,
       barColor,
-      bgColor
+      bgColor,
+      defaultImage,
+      allowedFiles
     });
   }
 };
