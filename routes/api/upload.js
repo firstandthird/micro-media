@@ -117,6 +117,9 @@ exports.upload = {
         }).then(out => {
           done(null, out);
         }, (err) => {
+          if (err.code === 99) {
+            return done(null, resizeBuffer);
+          }
           done(err);
         });
       },
