@@ -67,7 +67,7 @@ Dropzone.options.uploader = {
     }
     sendMessage(event);
   },
-  dictDefaultMessage: `Drop files here or click to upload.<br />Accepted file types ${opts.fileTypes}`
+  dictDefaultMessage: 'Drop files here or click to upload.'
 };
 
 on('#clear', 'click', () => {
