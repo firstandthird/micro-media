@@ -74,7 +74,7 @@ exports.upload = {
       },
       filename(request, settings, filepath, saveUrl, done) {
         const filename = request.query.url ? path.basename(saveUrl) : request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
-        const ext = path.extname(filename);
+        const ext = path.extname(filename).toLowerCase();
         const allowedExtensions = settings.allowedExtensions.split(',');
         if (allowedExtensions.indexOf(ext) === -1) {
           return fs.unlink(filepath, () => done(boom.forbidden(`Type ${ext} is not allowed`)));
