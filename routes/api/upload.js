@@ -1,5 +1,5 @@
 'use strict';
-const http = require('http');
+const wreck = require('wreck');
 const imagemin = require('imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const imageminPngquant = require('imagemin-pngquant');
@@ -45,7 +45,7 @@ exports.upload = {
           return done();
         }
         // fetch the file from url:
-        http.get(request.query.url, (response) => {
+        wreck.get(request.query.url, (response) => {
           if (response.statusCode !== 200) {
             return done(boom.create(response.statusCode, `URL ${request.query.url} returned HTTP status code ${response.statusCode}`));
           }
