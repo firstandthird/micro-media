@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8" />
     <title>MicroMedia Upload Multi</title>
-    <link rel="stylesheet" href="/ui/common.css"/>
+    <link rel="stylesheet" href="{{ 'common.css' | asset }}"/>
   </head>
   <body class="upload-multi">
-    <form id="uploader" action="/api/upload?{{ options }}" class="dropzone"></form>
+    <form id="uploader" action="{{ routePrefix }}/api/upload?{{ options }}" class="dropzone"></form>
     <div id="results"></div>
-    <script src="/ui/multi.js"></script>
+    <script src="{{ 'multi.js' | asset }}"></script>
   </body>
 </html>

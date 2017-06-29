@@ -41,7 +41,7 @@
     "joi": "10.5.0",
     "lout": "^10.0.1",
     "mime-types": "^2.1.14",
-    "rapptor": "1.13.0",
+    "rapptor": "1.16.0",
     "tinycolor2": "1.4.1",
     "vision": "4.1.1",
     "vision-nunjucks": "2.1.0"

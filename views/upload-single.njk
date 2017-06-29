@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>MicroMedia Upload Single</title>
-    <link rel="stylesheet" href="/ui/common.css"/>
+    <link rel="stylesheet" href="{{ 'common.css' | asset | cdn }}"/>
     <style>
       {% if barColor %}
       .upload-single .progress .bar { background-color: {{ barColor }}; }
@@ -15,7 +15,7 @@
   </head>
   <body class="upload-single">
     <button class="clear" id="clear">&times;</button>
-    <form id="uploader" action="/api/upload?{{ options }}" class="dropzone"></form>
+    <form id="uploader" action="{{ routePrefix }}/api/upload?{{ options }}" class="dropzone"></form>
     <div class="status-container" id="status">Uploading...</div>
     <div class="progress" id="progress"><div class="bar"></div></div>
     <div id="results"></div>
@@ -30,6 +30,6 @@
         {%- endif %}
       };
     </script>
-    <script src="/ui/single.js"></script>
+    <script src="{{ 'single.js' | asset | cdn }}"></script>
   </body>
 </html>
