@@ -3,8 +3,10 @@ exports.uploadMulti = {
   path: '/upload-multi',
   method: 'GET',
   handler(request, reply) {
+    const settings = request.server.settings.app;
     reply.view('upload-multi', {
-      options: querystring.stringify(request.query)
+      options: querystring.stringify(request.query),
+      routePrefix: settings.routePrefix
     });
   }
 };
@@ -13,6 +15,7 @@ exports.uploadSingle = {
   path: '/upload-single',
   method: 'GET',
   handler(request, reply) {
+    const settings = request.server.settings.app;
     const allowedFiles = request.server.settings.app.allowedExtensions;
     const options = Object.assign({}, request.query);
 
@@ -32,7 +35,8 @@ exports.uploadSingle = {
       barColor,
       bgColor,
       defaultImage,
-      allowedFiles
+      allowedFiles,
+      routePrefix: settings.routePrefix
     });
   }
 };
