@@ -47,7 +47,6 @@
     "vision-nunjucks": "2.1.0"
   },
   "devDependencies": {
-    "clientkit": "1.0.0",
     "concurrently": "3.3.0",
     "domassist": "1.7.2",
     "dropzone": "4.3.0",

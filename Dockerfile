@@ -1,6 +1,20 @@
+FROM firstandthird/clientkit:2.0.3 as clientkit
+
+RUN apk add --update git
+
+RUN cd /ck && npm install eslint-config-firstandthird eslint-plugin-import
+
+COPY clientkit/package.json /app/package.json
+RUN npm install
+
+COPY clientkit /app/clientkit
+COPY views /app/assets
+
+RUN clientkit prod
+
 FROM mhart/alpine-node:6.7
 
-RUN apk add --update \ 
+RUN apk add --update \
      git \
      make \
      gcc \
@@ -23,4 +37,3 @@ COPY . /app
 ENV NODE_ENV production
 
 CMD ["npm", "start"]
-

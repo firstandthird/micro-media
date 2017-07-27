@@ -1,0 +1,5 @@
+watcher:
+  ignore:
+    - 'node_modules'
+    - '.git'
+    - '_dist'

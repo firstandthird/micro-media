@@ -1,0 +1,6 @@
+initialize:
+  enabled: false
+reloadConfig:
+  taskOnUpdate: 'default'
+updates:
+  enabled: false

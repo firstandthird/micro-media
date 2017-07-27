@@ -1,0 +1,61 @@
+stylesheets:
+  fontParsingWhitelist: 'app.css'
+  files:
+    'app.css': '{{assetPath}}/common/app.css'
+  vars:
+    font:
+      primary: '"Open Sans", sans-serif'
+      secondary: '"Articulat", sans-serif'
+      heading: '{{stylesheets.vars.font.secondary}}'
+      size:
+        body: 16px
+        large: 18px
+        small: 14px
+      mobile-size:
+        body: 16px
+        large: 18px
+        small: 14px
+    heading:
+      font-weight: '400'
+      1-size: '30px'
+      2-size: '20px'
+      3-size: '18px'
+    line-height: 1.5
+  color:
+    accent1: '#155571'
+    accent2: '#548499'
+    accent3: '#92a1a8'
+    accent4: '#bfcfd4'
+    accent5: '#e2eaed'
+    accent6: '#e36f4f'
+
+    text-light: '#828b8f'
+
+    draft: '#a29a55'
+    published: '#1fa112'
+
+    black: '#000'
+    white: '#fff'
+
+    heading: '#4d5058'
+
+    body: '{{stylesheets.color.black}}'
+
+    link: '{{stylesheets.color.accent6}}'
+    link-hover: '{{stylesheets.color.accent1}}'
+    icons: '#444'
+
+    table-light: '#f8fafb'
+
+    input-label: 'rgba(0, 0, 0, .43)'
+    input-border: '{{stylesheets.color.accent4}}'
+
+    border: '#bfced4'
+    border-hover: '#548499'
+
+    modal-shadow: '0 4px 4px 1px rgba(93, 115, 125, .52);'
+  breakpoints:
+    desktop-wide:
+      content: '1200px'
+    desktop:
+      max-width: '1199px'

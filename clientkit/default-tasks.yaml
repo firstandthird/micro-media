@@ -1,0 +1,14 @@
+tasks:
+  default:
+    - 'initialize'
+    -
+      - 'eslint'
+      - 'stylesheets'
+      - 'scripts'
+      - 'scripts-vendor'
+
+  scripts-vendor: 'taskkit-rollup'
+  dev:
+    - 'initialize'
+    - 'scripts-vendor'
+    - 'watcher'

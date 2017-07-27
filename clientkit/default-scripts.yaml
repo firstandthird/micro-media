@@ -1,0 +1,12 @@
+scripts:
+  multithread: false
+  files:
+    'app.js': '{{assetPath}}/common/app.js'
+    'edit.js': '{{assetPath}}/edit/script.js'
+    'hooks.js': '{{assetPath}}/hooks/script.js'
+    'orgs.js': '{{assetPath}}/organizations/script.js'
+scripts-vendor:
+  dist: '{{dist}}'
+  minify: true
+  files:
+    'vendor.js': '{{assetPath}}/common/vendor.js'
