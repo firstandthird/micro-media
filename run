@@ -4,7 +4,7 @@ NAME=micromedia_app_1
 CMD=$1
 
 if [[ -z "$CMD" ]]; then
-  docker-compose up
+  docker-compose up --build
   exit
 fi
 

@@ -12,28 +12,20 @@ COPY views /app/assets
 
 RUN clientkit prod
 
-FROM mhart/alpine-node:6.7
+FROM node:8-alpine
 
-RUN apk add --update \
-     git \
-     make \
-     gcc \
-     libpng-dev \
-     autoconf \
-     automake \
-     make \
-     g++ \
-     libtool \
-     nasm
+ENV HOME=/home/app
+ENV PATH=/home/app/node_modules/.bin:$PATH
+WORKDIR $HOME/src
 
-RUN mkdir -p /app
-WORKDIR /app
+COPY --from=clientkit /app/dist $HOME/public/_dist
 
-COPY package.json /app
-RUN npm install --silent --production
+COPY package.json $HOME/package.json
 
-COPY . /app
+RUN npm install --production
 
-ENV NODE_ENV production
+COPY . $HOME/
+
+EXPOSE 8080
 
 CMD ["npm", "start"]

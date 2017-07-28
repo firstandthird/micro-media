@@ -1,7 +1,7 @@
 app:
   build: .
   dockerfile: 'DockerfileDev'
-  command: 'npm run dev'
+  command: 'npm start'
   volumes:
     - '.:/app'
   environment:

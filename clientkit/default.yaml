@@ -1,6 +1,8 @@
-initialize:
-  enabled: false
-reloadConfig:
-  taskOnUpdate: 'default'
-updates:
-  enabled: false
+dist: 'public/_dev'
+scripts:
+  files:
+    'single.js': '{{assetPath}}/single.js'
+    'multi.js': '{{assetPath}}/multi.js'
+stylesheets:
+  files:
+    'common.css': '{{assetPath}}/common.css'
