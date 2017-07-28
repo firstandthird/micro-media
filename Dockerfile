@@ -1,7 +1,5 @@
 FROM firstandthird/clientkit:2.0.3 as clientkit
 
-RUN apk add --update git
-
 RUN cd /ck && npm install eslint-config-firstandthird eslint-plugin-import
 
 COPY clientkit/package.json /app/package.json
@@ -21,6 +19,18 @@ WORKDIR $HOME/src
 COPY --from=clientkit /app/dist $HOME/public/_dist
 
 COPY package.json $HOME/package.json
+
+RUN apk add --update \
+     git \
+     make \
+     gcc \
+     libpng-dev \
+     autoconf \
+     automake \
+     make \
+     g++ \
+     libtool \
+     nasm
 
 RUN npm install --production
 
