@@ -21,6 +21,7 @@ exports.upload = {
   config: {
     validate: {
       query: {
+        thumb: Joi.string(),
         resize: Joi.string(),
         width: Joi.number(),
         height: Joi.number(),
@@ -104,7 +105,6 @@ exports.upload = {
           const color = new TinyColor(background);
           jimpImage.background(parseInt(color.toHex8(), 16));
         }
-
         jimpImage.getBuffer(Jimp.AUTO, done);
       },
       minBuffer(resizeBuffer, quality, done) {
@@ -123,16 +123,45 @@ exports.upload = {
           done(err);
         });
       },
-      s3Options(request, filename, settings, done) {
+      thumbJimp(buffer, request, done) {
+        if (!request.query.thumb) {
+          return done();
+        }
+        Jimp.read(buffer, done);
+      },
+      generateThumb(thumbJimp, request, done) {
+        if (!thumbJimp) {
+          return done();
+        }
+        const dims = request.query.thumb.toLowerCase().split('x');
+        const width = parseInt(dims[0], 10);
+        const height = parseInt(dims[1], 10);
+        thumbJimp.resize(width, height);
+        return done();
+      },
+      thumbBuffer(generateThumb, thumbJimp, done) {
+        if (!generateThumb) {
+          return done();
+        }
+        thumbJimp.getBuffer(Jimp.AUTO, done);
+      },
+      s3Options(request, settings, done) {
         done(null, {
           folder: request.query.folder || settings.folder,
           public: request.query.public || settings.public,
-          path: filename,
           host: settings.s3Host,
           maxAge: settings.maxAge
         });
       },
-      s3(server, minBuffer, filename, s3Options, done) {
+      s3Thumb(server, thumbBuffer, s3Options, filename, done) {
+        if (!thumbBuffer) {
+          return done();
+        }
+        s3Options.path = `thumbnail_${filename}`;
+        server.uploadToS3(thumbBuffer, s3Options, done);
+      },
+      s3Main(server, minBuffer, filename, s3Options, done) {
+        s3Options.path = filename;
         server.uploadToS3(minBuffer, s3Options, done);
       },
       size(minBuffer, done) {
@@ -146,14 +175,19 @@ exports.upload = {
       clean(minBuffer, filepath, done) {
         fs.unlink(filepath, done);
       },
-      reply(size, s3, done) {
-        done(null, {
-          location: s3.Location,
-          key: s3.Key,
+      reply(size, s3Main, s3Thumb, done) {
+        const returnVal = {
+          location: s3Main.Location,
+          key: s3Main.Key,
           width: size.width,
           height: size.height,
-          expiration: s3.Expiration
-        });
+          expiration: s3Main.Expiration
+        };
+        if (s3Thumb) {
+          returnVal.thumbLocation = s3Thumb.Location;
+          returnVal.thumbKey = s3Thumb.Key;
+        }
+        done(null, returnVal);
       }
     }
   }
