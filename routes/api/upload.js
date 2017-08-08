@@ -73,20 +73,20 @@ exports.upload = {
         return done(null, saveUrl);
       },
       verifyMinimumSize(request, settings, filepath, done) {
-        if (settings.app.minimumUploadSize) {
+        if (settings.minimumUploadSize) {
           return fs.stat(filepath, (err, stats) => {
             if (err) {
               return done(err);
             }
-            if (stats.size < settings.app.minimumUploadSize) {
-              return done(boom.badRequest('400', `You cannot upload a file of size smaller than ${settings.app.minimumUploadSize}`));
+            if (stats.size < settings.minimumUploadSize * 1024) {
+              return done(boom.badRequest('400', `You cannot upload a file of size smaller than ${settings.minimumUploadSize}kB`));
             }
             return done();
           });
         }
         return done();
       },
-      filename(request, settings, filepath, saveUrl, done) {
+      filename(request, settings, verifyMinimumSize, filepath, saveUrl, done) {
         const filename = request.query.url ? path.basename(saveUrl) : request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
         const ext = path.extname(filename).toLowerCase();
         const allowedExtensions = settings.allowedExtensions.split(',');
