@@ -5,8 +5,9 @@ s3:
   secretAccessKey: '{{ENV.AWS_SECRET_ACCESS_KEY}}'
   region: '{{ENV.AWS_DEFAULT_REGION}}'
   profile: '{{ENV.AWS_PROFILE}}'
-# specify in kb (* 1024)
-minimumUploadSize: 10
+minimumImageSize:
+  width: 10
+  height: 10
 s3Host: "{{ENV.S3_HOST}}"
 quality: '{{ENV.QUALITY || 80}}'
 folder: '{{ENV.FOLDER}}'

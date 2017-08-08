@@ -72,21 +72,7 @@ exports.upload = {
         }
         return done(null, saveUrl);
       },
-      verifyMinimumSize(request, settings, filepath, done) {
-        if (settings.minimumUploadSize) {
-          return fs.stat(filepath, (err, stats) => {
-            if (err) {
-              return done(err);
-            }
-            if (stats.size < settings.minimumUploadSize * 1024) {
-              return done(boom.badRequest('400', `You cannot upload a file of size smaller than ${settings.minimumUploadSize}kB`));
-            }
-            return done();
-          });
-        }
-        return done();
-      },
-      filename(request, settings, verifyMinimumSize, filepath, saveUrl, done) {
+      filename(request, settings, filepath, saveUrl, done) {
         const filename = request.query.url ? path.basename(saveUrl) : request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
         const ext = path.extname(filename).toLowerCase();
         const allowedExtensions = settings.allowedExtensions.split(',');
@@ -102,7 +88,14 @@ exports.upload = {
       buffer(filepath, done) {
         fs.readFile(filepath, done);
       },
-      jimpImage(buffer, request, done) {
+      verifyMinimumSize(buffer, settings, done) {
+        const size = sizeOf(buffer);
+        if (size.width >= settings.minimumImageSize.width && size.height >= settings.minimumImageSize.height) {
+          return done();
+        }
+        return done(boom.badRequest(`Image size must be at least ${settings.minimumImageSize.width}x${settings.minimumImageSize.height}`));
+      },
+      jimpImage(verifyMinimumSize, buffer, request, done) {
         if (!request.query.resize) {
           return done();
         }
@@ -118,7 +111,6 @@ exports.upload = {
           const color = new TinyColor(background);
           jimpImage.background(parseInt(color.toHex8(), 16));
         }
-
         jimpImage.getBuffer(Jimp.AUTO, done);
       },
       minBuffer(resizeBuffer, quality, done) {
