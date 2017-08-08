@@ -79,16 +79,22 @@ exports.upload = {
         if (allowedExtensions.indexOf(ext) === -1) {
           return fs.unlink(filepath, () => done(boom.forbidden(`Type ${ext} is not allowed`)));
         }
-        return done(null, filename);
+        return done(null, { filename, ext });
+      },
+      isImage(filename, done) {
+        done(null, (['.jpg', '.jpeg', '.gif', '.png', '.tif', '.svg'].indexOf(filename.ext) !== -1));  
       },
       quality(request, settings, done) {
         const quality = request.query.quality || settings.quality;
         done(null, quality);
       },
-      buffer(filepath, done) {
+      buffer(filepath, isImage, done) {
         fs.readFile(filepath, done);
       },
-      jimpImage(buffer, request, done) {
+      jimpImage(buffer, isImage, request, done) {
+        if (!buffer && !isImage) {
+          return done();
+        }
         if (!request.query.resize) {
           return done();
         }
@@ -107,7 +113,10 @@ exports.upload = {
 
         jimpImage.getBuffer(Jimp.AUTO, done);
       },
-      minBuffer(resizeBuffer, quality, done) {
+      minBuffer(resizeBuffer, quality, isImage, done) {
+        if (!isImage) {
+          return done(null, resizeBuffer);
+        }
         imagemin.buffer(resizeBuffer, {
           plugins: [
             imageminMozjpeg({ quality }),
@@ -127,7 +136,7 @@ exports.upload = {
         done(null, {
           folder: request.query.folder || settings.folder,
           public: request.query.public || settings.public,
-          path: filename,
+          path: filename.filename,
           host: settings.s3Host,
           maxAge: settings.maxAge
         });
@@ -135,7 +144,10 @@ exports.upload = {
       s3(server, minBuffer, filename, s3Options, done) {
         server.uploadToS3(minBuffer, s3Options, done);
       },
-      size(minBuffer, done) {
+      size(minBuffer, isImage, done) {
+        if (!isImage) {
+          return done();
+        }
         try {
           const size = sizeOf(minBuffer);
           return done(null, size);
@@ -146,14 +158,17 @@ exports.upload = {
       clean(minBuffer, filepath, done) {
         fs.unlink(filepath, done);
       },
-      reply(size, s3, done) {
-        done(null, {
+      reply(size, s3, isImage, done) {
+        const respObj = {
           location: s3.Location,
           key: s3.Key,
-          width: size.width,
-          height: size.height,
-          expiration: s3.Expiration
-        });
+          isImage
+        };
+        if (size) {
+          respObj.width = size.width;
+          respObj.height = size.height;
+        }
+        done(null, respObj);
       }
     }
   }

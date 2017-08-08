@@ -14,5 +14,6 @@ app:
     S3_HOST:
     PUBLIC:
     FOLDER:
+    ALLOWED_EXTENSIONS:
   ports:
     - '8080'
