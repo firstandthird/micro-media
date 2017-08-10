@@ -23,11 +23,13 @@ exports.uploadSingle = {
     const barColor = options.barColor;
     const bgColor = options.bgColor;
     const defaultImage = (options.defaultImage) ? options.defaultImage : false;
+    const defaultText = (options.defaultText) ? options.defaultText : 'Drop files here or click to upload.';
 
     delete options.inputId;
     delete options.barColor;
     delete options.bgColor;
     delete options.defaultImage;
+    delete options.defaultText;
 
     reply.view('upload-single', {
       options: querystring.stringify(options),
@@ -35,6 +37,7 @@ exports.uploadSingle = {
       barColor,
       bgColor,
       defaultImage,
+      defaultText,
       allowedFiles,
       routePrefix: settings.routePrefix
     });
