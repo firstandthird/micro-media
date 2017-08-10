@@ -38,26 +38,29 @@ body {
     display: none;
     background: none;
     border: none;
-    font-size: 36px;
+    font-size: 1.5em;
     cursor: pointer;
     position: absolute;
-    top: 5px;
-    right: 5px;
+    right: 0px;
   }
   & .status-container {
-    width: 50%;
+    width: 70%;
     margin: 0 auto;
-    margin-top: calc(50vh - 40px);
-    font-size: 1.5em;
+    margin-top: calc(50vh - 25px);
+    display:none;
+    font-size: calc(1em + 1vh);
+    text-align: center;
     margin-bottom: 8px;
   }
   & .progress {
     width: 50%;
-    height: 30px;
+    height: 0.75em;
     margin: 0 auto;
+    display: none;
     vertical-align: middle;
     border: 1px solid #ccc;
     padding: 2px;
+    font-size: 1.5em;
     & .bar {
       background-color: #333;
       height: 100%;

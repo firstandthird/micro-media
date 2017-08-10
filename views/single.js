@@ -35,7 +35,7 @@ Dropzone.options.uploader = {
     hide('#uploader');
     show(['#progress', '#status']);
     if (progress > 97) {
-      findOne('#status').innerHTML = 'Optimizing Image...';
+      findOne('#status').innerHTML = 'Optimizing...';
     }
     styles('#progress .bar', {
       width: `${progress}%`
@@ -67,7 +67,7 @@ Dropzone.options.uploader = {
     }
     sendMessage(event);
   },
-  dictDefaultMessage: 'Drop files here or click to upload.'
+  dictDefaultMessage: window.uploaderSetup.defaultText
 };
 
 on('#clear', 'click', () => {
