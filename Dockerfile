@@ -30,12 +30,12 @@ RUN apk add --update \
 RUN mkdir -p /app
 WORKDIR /app
 
+COPY --from=clientkit /app/dist /app/public/_dist
+
 COPY package.json /app
 RUN npm install --silent --production
 
 COPY . /app
-
-COPY --from=clientkit /app/dist $HOME/src/public/_dist
 
 ENV NODE_ENV production
 

@@ -1,0 +1,4 @@
+plugins:
+  hapi-nunjucks-helpers:
+    assets:
+      mappingFile: ''

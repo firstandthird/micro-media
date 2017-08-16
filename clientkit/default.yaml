@@ -1,3 +1,5 @@
+initialize:
+  enabled: false
 scripts:
   files:
     'single.js': '{{ assetPath }}/single.js'
