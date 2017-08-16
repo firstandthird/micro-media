@@ -5,6 +5,7 @@ app:
   volumes:
     - '.:/app'
   environment:
+    NODE_ENV: 'stage'
     PORT: 8080
     VIRTUAL_HOST: 'media.*'
     FORCE_COLOR: 1

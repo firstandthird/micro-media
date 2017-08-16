@@ -1,5 +1,5 @@
 assetPath: 'views'
-dist: 'public/_dev'
+dist: 'public/_dist'
 scripts:
   files:
     'single.js': 'views/single.js'
