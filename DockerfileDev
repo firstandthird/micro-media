@@ -3,7 +3,10 @@ FROM firstandthird/node:6.7
 RUN apk add --update libpng-dev \
       autoconf \
       automake \
+      libpng-dev \
       make \
       g++ \
       libtool \
       nasm
+
+EXPOSE 8080

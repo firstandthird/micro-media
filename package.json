@@ -4,12 +4,7 @@
   "private": true,
   "description": "Site to manage media (images, pdfs, etc). Store in s3",
   "scripts": {
-    "start": "rapptor",
-    "dev": "npm install && concurrently 'npm run dev:server' 'npm run dev:clientkit'",
-    "dev:server": "nodemon",
-    "dev:clientkit": "clientkit dev --color",
-    "lint": "eslint . --ignore-pattern public",
-    "prod": "NODE_ENV=production clientkit --env prod"
+    "start": "rapptor"
   },
   "repository": {
     "type": "git",
@@ -47,14 +42,11 @@
     "vision-nunjucks": "2.1.0"
   },
   "devDependencies": {
-    "clientkit": "1.0.0",
-    "concurrently": "3.3.0",
     "domassist": "1.7.2",
-    "dropzone": "4.3.0",
     "eslint": "3.15.0",
     "eslint-config-firstandthird": "3.2.0",
     "eslint-plugin-import": "2.2.0",
-    "nodemon": "1.11.0"
+    "nodemon": "^1.11.0"
   },
   "eslintConfig": {
     "extends": "firstandthird"

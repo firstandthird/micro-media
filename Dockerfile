@@ -1,6 +1,26 @@
-FROM mhart/alpine-node:6.7
+FROM firstandthird/clientkit:2.0.3 as clientkit
 
-RUN apk add --update \ 
+RUN cd /ck && npm install eslint-config-firstandthird eslint-plugin-import
+
+COPY clientkit/package.json /app/package.json
+RUN npm install
+
+COPY clientkit /app/clientkit
+COPY views /app/assets
+
+RUN clientkit prod
+
+FROM node:8-alpine
+
+ENV HOME=/home/app
+ENV PATH=/home/app/node_modules/.bin:$PATH
+WORKDIR $HOME/src
+
+COPY --from=clientkit /app/dist $HOME/public/_dist
+
+COPY package.json $HOME/package.json
+
+RUN apk add --update \
      git \
      make \
      gcc \
@@ -12,15 +32,10 @@ RUN apk add --update \
      libtool \
      nasm
 
-RUN mkdir -p /app
-WORKDIR /app
+RUN npm install --production
 
-COPY package.json /app
-RUN npm install --silent --production
+COPY . $HOME/
 
-COPY . /app
-
-ENV NODE_ENV production
+EXPOSE 8080
 
 CMD ["npm", "start"]
-

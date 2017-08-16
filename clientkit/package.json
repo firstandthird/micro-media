@@ -1,0 +1,27 @@
+{
+  "name": "micro-media-clientkit",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "@firstandthird/complete": "1.0.0",
+    "clientkit-livereload": "0.0.4",
+    "eslint": "4.1.1",
+    "eslint-config-firstandthird": "3.2.0",
+    "eslint-plugin-import": "2.6.1",
+    "bequest": "1.3.2",
+    "codemirror": "5.28.0",
+    "jsonlint": "1.6.2",
+    "domassist": "1.9.0",
+    "domodule": "5.1.3",
+    "dropzone": "4.3.0",
+    "formjax": "1.2.1",
+    "sortablejs": "^1.6.0"
+  },
+  "eslintConfig": {
+    "extends": "firstandthird",
+    "rules": {
+      "no-underscore-dangle": 0
+    }
+  }
+}
