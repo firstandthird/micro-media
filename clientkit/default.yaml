@@ -1,0 +1,9 @@
+initialize:
+  enabled: false
+scripts:
+  files:
+    'single.js': '{{ assetPath }}/single.js'
+    'multi.js': '{{ assetPath }}/multi.js'
+stylesheets:
+  files:
+    'common.css': '{{ assetPath }}/common.css'

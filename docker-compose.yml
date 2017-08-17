@@ -16,3 +16,13 @@ app:
     FOLDER:
   ports:
     - '8080'
+
+clientkit:
+  build: './clientkit'
+  command: 'dev'
+  environment:
+    FORCE_COLOR: 1
+  volumes:
+    - './clientkit:/app/clientkit'
+    - './public/_dist:/app/dist'
+    - './views:/app/assets'

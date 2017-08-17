@@ -1,0 +1,16 @@
+{
+  "name": "sgff-clientkit",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "dependencies": {
+    "domassist": "1.7.2",
+    "dropzone": "4.3.0"
+  },
+  "eslintConfig": {
+    "extends": "firstandthird",
+    "rules": {
+      "no-underscore-dangle": 0
+    }
+  }
+}	

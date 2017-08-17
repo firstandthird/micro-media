@@ -1,2 +1,4 @@
-assets:
-  path: 'public/_dev'
+plugins:
+  hapi-nunjucks-helpers:
+    assets:
+      mappingFile: ''
