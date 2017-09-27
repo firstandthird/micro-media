@@ -1,5 +1,5 @@
 'use strict';
-const http = require('http');
+const wreck = require('wreck');
 const imagemin = require('imagemin');
 const imageminMozjpeg = require('imagemin-mozjpeg');
 const imageminPngquant = require('imagemin-pngquant');
@@ -45,24 +45,21 @@ exports.upload = {
           return done();
         }
         // fetch the file from url:
-        http.get(request.query.url, (response) => {
+        wreck.get(request.query.url, (err, response, payload) => {
+          if (err) {
+            return done(err);
+          }
           if (response.statusCode !== 200) {
             return done(boom.create(response.statusCode, `URL ${request.query.url} returned HTTP status code ${response.statusCode}`));
           }
           // abort if that file extension is not allowed:
           const ext = mime.extension(response.headers['content-type']);
           const filename = path.join(os.tmpdir(), `${Math.random()}.${ext}`);
-          const dataStream = new Stream();
-          response.on('data', (chunk) => {
-            dataStream.push(chunk);
-          });
-          response.on('end', () => {
-            fs.writeFile(filename, dataStream.read(), (err) => {
-              if (err) {
-                return done(err);
-              }
-              return done(null, filename);
-            });
+          fs.writeFile(filename, payload, (buffError) => {
+            if (buffError) {
+              return done(buffError);
+            }
+            return done(null, filename);
           });
         });
       },

@@ -41,7 +41,8 @@
     "rapptor": "1.16.0",
     "tinycolor2": "1.4.1",
     "vision": "4.1.1",
-    "vision-nunjucks": "2.1.0"
+    "vision-nunjucks": "2.1.0",
+    "wreck": "^12.2.2"
   },
   "devDependencies": {
     "eslint": "3.15.0",
