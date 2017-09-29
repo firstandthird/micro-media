@@ -14,9 +14,10 @@ Dropzone.options.uploader = {
 
     hide(findOne('#uploader'));
 
+    const divStyle = (obj.isImage) ? `background-image: url(${imageUrl});` : '';
     const img = `
       <div class="image-container">
-        <div class="image" style="background-image: url(${imageUrl});"></div>
+        <div class="image" style="${divStyle}"></div>
         <input readonly value="${imageUrl}" onfocus="this.select();"/>
       </div>
     `;

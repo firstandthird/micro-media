@@ -22,6 +22,18 @@ const handleImage = function(imgSrc) {
   show('#clear');
 };
 
+const handleFile = function(fileSrc) {
+  hide(['#uploader', '#progress', '#status']);
+  const results = findOne('#results');
+  results.innerHTML = fileSrc;
+  styles(results, {
+    display: 'block',
+    lineHeight: '100vh',
+    textAlign: 'center'
+  });
+  show('#clear');
+};
+
 Dropzone.options.uploader = {
   init() {
     dropzone = this;
@@ -56,9 +68,12 @@ Dropzone.options.uploader = {
 
     const response = file.xhr.response;
     const obj = JSON.parse(response);
-    const imageUrl = obj.location;
-    handleImage(imageUrl);
-
+    const fileUrl = obj.location;
+    if (obj.isImage) {
+      handleImage(fileUrl);
+    } else {
+      handleFile(fileUrl);
+    }
     event.type = 'complete';
     event.data = obj;
 
