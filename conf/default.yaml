@@ -6,8 +6,8 @@ s3:
   region: '{{ENV.AWS_DEFAULT_REGION}}'
   profile: '{{ENV.AWS_PROFILE}}'
 minimumImageSize:
-  width: 10
-  height: 10
+  width: '{{ENV.MIN_WIDTH}}'
+  height: '{{ENV.MIN_HEIGHT}}'
 s3Host: "{{ENV.S3_HOST}}"
 quality: '{{ENV.QUALITY || 80}}'
 folder: '{{ENV.FOLDER}}'
