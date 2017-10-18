@@ -89,6 +89,10 @@ exports.upload = {
         fs.readFile(filepath, done);
       },
       verifyMinimumSize(buffer, settings, done) {
+        // skip if minimumImageSize dimensions are not set, image can be any size:
+        if (!settings.minimumImageSize.width || !settings.minimumImageSize.height) {
+          return done();
+        }
         const size = sizeOf(buffer);
         if (size.width >= settings.minimumImageSize.width && size.height >= settings.minimumImageSize.height) {
           return done();
