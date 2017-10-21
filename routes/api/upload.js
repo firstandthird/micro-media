@@ -85,7 +85,18 @@ exports.upload = {
       buffer(filepath, done) {
         fs.readFile(filepath, done);
       },
-      jimpImage(buffer, request, done) {
+      verifyMinimumSize(buffer, settings, done) {
+        // skip if minimumImageSize dimensions are not set, image can be any size:
+        if (!settings.minimumImageSize.width || !settings.minimumImageSize.height) {
+          return done();
+        }
+        const size = sizeOf(buffer);
+        if (size.width >= settings.minimumImageSize.width && size.height >= settings.minimumImageSize.height) {
+          return done();
+        }
+        return done(boom.badRequest(`Image size must be at least ${settings.minimumImageSize.width}x${settings.minimumImageSize.height}`));
+      },
+      jimpImage(verifyMinimumSize, buffer, request, done) {
         if (!request.query.resize) {
           return done();
         }
@@ -101,7 +112,6 @@ exports.upload = {
           const color = new TinyColor(background);
           jimpImage.background(parseInt(color.toHex8(), 16));
         }
-
         jimpImage.getBuffer(Jimp.AUTO, done);
       },
       minBuffer(resizeBuffer, quality, done) {
