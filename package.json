@@ -1,6 +1,6 @@
 {
   "name": "micro-media",
-  "version": "0.2.0",
+  "version": "0.6.4",
   "private": true,
   "description": "Site to manage media (images, pdfs, etc). Store in s3",
   "scripts": {
