@@ -1,6 +1,6 @@
 /* eslint-env browser */
 import Dropzone from 'dropzone';
-import { findOne, on, show, hide, styles } from 'domassist';
+import { addClass, findOne, on, show, hide, styles } from 'domassist';
 
 const opts = window.uploaderSetup;
 
@@ -13,12 +13,23 @@ const sendMessage = function(event) {
 
 let dropzone;
 
+const isImageFile = function(imgSrc) {
+  return (/\.(gif|jpg|jpeg|tiff|png|svg)$/i).test(imgSrc);
+};
+
 const handleImage = function(imgSrc) {
   hide(['#uploader', '#progress', '#status']);
-  styles('#results', {
-    backgroundImage: `url(${imgSrc})`,
-    display: 'block'
-  });
+
+  if (isImageFile(imgSrc)) {
+    styles('#results', {
+      backgroundImage: `url(${imgSrc})`,
+      display: 'block'
+    });
+  } else {
+    styles('#results', { display: 'block' });
+    addClass('#results', 'default-image');
+  }
+
   show('#clear');
 };
 
