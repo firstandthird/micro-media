@@ -2,9 +2,9 @@ const querystring = require('querystring');
 exports.uploadMulti = {
   path: '/upload-multi',
   method: 'GET',
-  handler(request, reply) {
+  handler(request, h) {
     const settings = request.server.settings.app;
-    reply.view('upload-multi', {
+    return h.view('upload-multi', {
       options: querystring.stringify(request.query),
       routePrefix: settings.routePrefix
     });
@@ -14,7 +14,7 @@ exports.uploadMulti = {
 exports.uploadSingle = {
   path: '/upload-single',
   method: 'GET',
-  handler(request, reply) {
+  handler(request, h) {
     const settings = request.server.settings.app;
     const allowedFiles = request.server.settings.app.allowedExtensions;
     const options = Object.assign({}, request.query);
@@ -31,7 +31,7 @@ exports.uploadSingle = {
     delete options.defaultImage;
     delete options.defaultText;
 
-    reply.view('upload-single', {
+    return h.view('upload-single', {
       options: querystring.stringify(options),
       inputId,
       barColor,
@@ -47,8 +47,8 @@ exports.uploadSingle = {
 exports.test = {
   path: '/embed-test',
   method: 'GET',
-  handler(request, reply) {
-    reply.view('embed-test', {
+  handler(request, h) {
+    return h.view('embed-test', {
       options: querystring.stringify(request.query)
     });
   }
