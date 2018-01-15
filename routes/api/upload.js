@@ -11,7 +11,6 @@ const sizeOf = require('image-size');
 const path = require('path');
 const Joi = require('joi');
 const os = require('os');
-const Stream = require('stream').Transform;
 const mime = require('mime-types');
 const boom = require('boom');
 
@@ -56,13 +55,14 @@ exports.upload = {
     }
     const filename = request.query.url ? path.basename(filepath) : request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
 
-    // make sure we accept that extension:
+    // make sure we accept images with that extension:
     const ext = path.extname(filepath).toLowerCase();
     const allowedExtensions = settings.allowedExtensions.split(',');
     if (allowedExtensions.indexOf(ext) === -1) {
       fs.unlinkSync(filepath);
       throw boom.forbidden(`Type ${ext} is not allowed`);
     }
+
     // if minimum image dimensions are specified, make sure this is above that size:
     const quality = request.query.quality || settings.quality;
     const buffer = fs.readFileSync(filepath);
@@ -87,7 +87,8 @@ exports.upload = {
     } else {
       resizeBuffer = buffer;
     }
-    // try to compress the image before uploading:
+
+    // try to compress the image data before uploading:
     let minBuffer;
     try {
       minBuffer = await imagemin.buffer(resizeBuffer, {
@@ -114,7 +115,7 @@ exports.upload = {
     };
     const s3 = await request.server.uploadToS3(minBuffer, s3Options);
 
-    // try to set the size of the image:
+    // try to get the final size of the image:
     let size;
     try {
       size = sizeOf(minBuffer);
