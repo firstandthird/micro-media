@@ -18,7 +18,6 @@ plugins:
   hapi-logr:
     exclude:
       - 'client'
-  # lout:
   vision:
     _priority: -5
   inert:
@@ -36,7 +35,7 @@ plugins:
     profile: 'default'
     maxUploadSize: 30
   hapi-log-response:
-  # hapi-favicon:
+  hapi-favicon:
   hapi-robots:
     envs:
       production:
