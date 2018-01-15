@@ -24,7 +24,6 @@
     "boom": "^4.3.0",
     "hapi-auto-handler": "^2.0.0",
     "hapi-favicon": "^2.0.0",
-    "hapi-log-response": "^2.1.1",
     "hapi-nunjucks-helpers": "^4.0.0",
     "hapi-upload-s3": "^3.0.0",
     "image-size": "^0.6.2",
@@ -46,7 +45,6 @@
     "eslint": "^4.15.0",
     "eslint-config-firstandthird": "^4.3.0",
     "eslint-plugin-import": "^2.8.0",
-    "hapi-robots": "^3.0.0",
     "nodemon": "1.11.0"
   },
   "eslintConfig": {
