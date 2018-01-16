@@ -4,9 +4,7 @@
   "private": true,
   "description": "Site to manage media (images, pdfs, etc). Store in s3",
   "scripts": {
-    "start": "rapptor",
-    "dev": "npm install && nodemon",
-    "lint": "eslint . --ignore-pattern public"
+    "start": "rapptor"
   },
   "repository": {
     "type": "git",
@@ -20,11 +18,11 @@
   },
   "homepage": "https://github.com/firstandthird/micro-media#readme",
   "dependencies": {
-    "aws-sdk": "2.54.0",
     "boom": "^4.3.0",
     "hapi-auto-handler": "^2.0.0",
     "hapi-favicon": "^2.0.0",
     "hapi-nunjucks-helpers": "^4.0.0",
+    "hapi-robots": "^3.0.0",
     "hapi-upload-s3": "^3.0.0",
     "image-size": "^0.6.2",
     "imagemin": "^5.3.1",

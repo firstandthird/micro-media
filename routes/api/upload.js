@@ -56,7 +56,7 @@ exports.upload = {
     const filename = request.query.url ? path.basename(filepath) : request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
 
     // make sure we accept images with that extension:
-    const ext = path.extname(filepath).toLowerCase();
+    const ext = path.extname(filename).toLowerCase();
     const allowedExtensions = settings.allowedExtensions.split(',');
     if (allowedExtensions.indexOf(ext) === -1) {
       fs.unlinkSync(filepath);
