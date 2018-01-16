@@ -99,12 +99,10 @@ exports.upload = {
         ]
       });
     } catch (err) {
-      // error 99 is ok:
-      if (err.code === 99) {
-        return resizeBuffer;
+      // anything other than error 99 is considered an unrecoverable error:
+      if (err.code !== 99) {
+        throw err;
       }
-      // anything else is an error:
-      throw err;
     }
     const s3Options = {
       folder: request.query.folder || settings.folder,
