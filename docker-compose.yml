@@ -1,12 +1,10 @@
 app:
   build: .
   dockerfile: 'DockerfileDev'
-  command: 'npm run dev'
   volumes:
-    - '.:/app'
+    - '.:/home/app/src'
   environment:
     PORT: 8080
-    VIRTUAL_HOST: 'media.*'
     FORCE_COLOR: 1
     AWS_ACCESS_KEY_ID:
     AWS_BUCKET:
@@ -15,7 +13,7 @@ app:
     PUBLIC:
     FOLDER:
   ports:
-    - '8080'
+    - '8080:8080'
 
 clientkit:
   build: './clientkit'

@@ -13,7 +13,7 @@ COPY views /app/assets
 ENV NODE_ENV production
 RUN clientkit prod
 
-FROM mhart/alpine-node:6.7
+FROM firstandthird/node:8.8-onbuild
 
 RUN apk add --update \ 
      git \
@@ -27,17 +27,4 @@ RUN apk add --update \
      libtool \
      nasm
 
-RUN mkdir -p /app
-WORKDIR /app
-
-COPY --from=clientkit /app/dist /app/public/_dist
-
-COPY package.json /app
-RUN npm install --silent --production
-
-COPY . /app
-
-ENV NODE_ENV production
-
-CMD ["npm", "start"]
-
+COPY --from=clientkit /app/dist /home/app/src/public/_dist

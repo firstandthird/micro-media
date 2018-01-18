@@ -18,7 +18,6 @@ plugins:
   hapi-logr:
     exclude:
       - 'client'
-  lout:
   vision:
     _priority: -5
   inert:

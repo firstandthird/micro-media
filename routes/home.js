@@ -1,7 +1,7 @@
 exports.home = {
   path: '/',
   method: 'get',
-  handler(request, reply) {
-    reply('micro-media');
+  handler(request, h) {
+    return 'micro-media';
   }
 };
