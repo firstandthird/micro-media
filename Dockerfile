@@ -13,7 +13,7 @@ COPY views /app/assets
 ENV NODE_ENV production
 RUN clientkit prod
 
-FROM firstandthird/node:8.8-onbuild
+FROM firstandthird/node:8.8
 
 RUN apk add --update \ 
      git \
@@ -26,5 +26,10 @@ RUN apk add --update \
      g++ \
      libtool \
      nasm
+
+COPY package.json package-lock.* $HOME/src/
+RUN npm install --silent --production && npm cache clean --force
+
+COPY . $HOME/src
 
 COPY --from=clientkit /app/dist /home/app/src/public/_dist
