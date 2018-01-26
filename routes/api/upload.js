@@ -13,7 +13,6 @@ const Joi = require('joi');
 const os = require('os');
 const mime = require('mime-types');
 const boom = require('boom');
-const util = require('util');
 
 exports.upload = {
   method: 'POST',
@@ -85,7 +84,15 @@ exports.upload = {
         const color = new TinyColor(background);
         jimpImage.background(parseInt(color.toHex8(), 16));
       }
-      resizeBuffer = await util.promisify(jimpImage.getBuffer)(Jimp.AUTO);
+      // getBuffer requires a callback and doesn't work with util.promisify:
+      resizeBuffer = await new Promise((resolve, reject) => {
+        jimpImage.getBuffer(Jimp.AUTO, (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(result);
+        });
+      });
     } else {
       resizeBuffer = buffer;
     }
@@ -123,6 +130,7 @@ exports.upload = {
       const height = parseInt(dims[1], 10);
       const thumbJimp = await Jimp.read(buffer);
       thumbJimp.resize(width, height);
+      // getBuffer requires a callback and doesn't work with util.promisify:
       const thumbBuffer = await new Promise((resolve, reject) => {
         thumbJimp.getBuffer(Jimp.AUTO, (err, result) => {
           if (err) {
