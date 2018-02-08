@@ -1,6 +1,5 @@
-FROM firstandthird/node:8.8-dev
+FROM firstandthird/node:8.8
 
-USER root
 RUN apk add --update \ 
      git \
      make \
@@ -12,3 +11,5 @@ RUN apk add --update \
      g++ \
      libtool \
      nasm
+
+CMD ["dumb-init", "npm", "run", "dev"]

@@ -20,6 +20,7 @@ exports.upload = {
   config: {
     validate: {
       query: {
+        thumb: Joi.string(),
         resize: Joi.string(),
         width: Joi.number(),
         height: Joi.number(),
@@ -83,7 +84,15 @@ exports.upload = {
         const color = new TinyColor(background);
         jimpImage.background(parseInt(color.toHex8(), 16));
       }
-      resizeBuffer = await jimpImage.getBuffer(Jimp.AUTO);
+      // getBuffer requires a callback and doesn't work with util.promisify:
+      resizeBuffer = await new Promise((resolve, reject) => {
+        jimpImage.getBuffer(Jimp.AUTO, (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(result);
+        });
+      });
     } else {
       resizeBuffer = buffer;
     }
@@ -111,7 +120,28 @@ exports.upload = {
       host: settings.s3Host,
       maxAge: settings.maxAge
     };
+    // upload the image
     const s3 = await request.server.uploadToS3(minBuffer, s3Options);
+    // create an upload a thumbnail if requested:
+    let s3Thumb;
+    if (request.query.thumb) {
+      const dims = request.query.thumb.toLowerCase().split('x');
+      const width = parseInt(dims[0], 10);
+      const height = parseInt(dims[1], 10);
+      const thumbJimp = await Jimp.read(buffer);
+      thumbJimp.resize(width, height);
+      // getBuffer requires a callback and doesn't work with util.promisify:
+      const thumbBuffer = await new Promise((resolve, reject) => {
+        thumbJimp.getBuffer(Jimp.AUTO, (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(result);
+        });
+      });
+      s3Options.path = `thumbnail_${filename}`;
+      s3Thumb = await request.server.uploadToS3(thumbBuffer, s3Options);
+    }
 
     // try to get the final size of the image:
     let size;
@@ -123,13 +153,17 @@ exports.upload = {
 
     // clean up the file from disk:
     fs.unlinkSync(filepath);
-
-    return {
+    const returnVal = {
       location: s3.Location,
       key: s3.Key,
       width: size.width,
       height: size.height,
       expiration: s3.Expiration
     };
+    if (s3Thumb) {
+      returnVal.thumbLocation = s3Thumb.Location;
+      returnVal.thumbKey = s3Thumb.Key;
+    }
+    return returnVal;
   }
 };
