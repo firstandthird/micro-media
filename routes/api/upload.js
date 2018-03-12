@@ -75,11 +75,12 @@ exports.upload = {
     minSize.width = request.query.minwidth || minSize.width;
     minSize.height = request.query.minheight || minSize.height;
     // skip if minimumImageSize dimensions are not set, image can be any size:
-    if (minSize.width || !minSize.height) {
-      const size = sizeOf(buffer);
-      if (size.width <= minSize.width || size.height <= minSize.height) {
-        throw boom.badRequest(`Image size must be at least ${minSize.width}x${minSize.height}`);
-      }
+    const size = sizeOf(buffer);
+    if (typeof minSize.width === 'number' && size.width < minSize.width) {
+      throw boom.badRequest(`Image must be at least ${minSize.width} pixels wide`);
+    }
+    if (typeof minSize.height === 'number' && size.height < minSize.height) {
+      throw boom.badRequest(`Image must be at least ${minSize.height} pixels tall`);
     }
     // if we need to resize the image before processing:
     let resizeBuffer;
