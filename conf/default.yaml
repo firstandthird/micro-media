@@ -19,11 +19,15 @@ plugins:
     exclude:
       - 'client'
   vision:
+    _priority: -5
   inert:
+    _priority: -5
+  hapi-auto-handler:
+    _priority: -5
+  hapi-method-loader:
+    _enabled: false
   hapi-upload-s3:
-    _dependencies:
-      - 'vision'
-      - 'inert'
+    _priority: -6
     bucket: '{{s3.bucket}}'
     accessKey: '{{s3.accessKey}}'
     secretAccessKey: '{{s3.secretAccessKey}}'
