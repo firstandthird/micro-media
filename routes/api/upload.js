@@ -24,6 +24,8 @@ exports.upload = {
         resize: Joi.string(),
         width: Joi.number(),
         height: Joi.number(),
+        minwidth: Joi.number(),
+        minheight: Joi.number(),
         background: Joi.string(),
         quality: Joi.number(),
         folder: Joi.string(),
@@ -67,11 +69,16 @@ exports.upload = {
     // if minimum image dimensions are specified, make sure this is above that size:
     const quality = request.query.quality || settings.quality;
     const buffer = fs.readFileSync(filepath);
+    // see if there are image dimension requirements coming from settings or query:
+    const minSize = settings.minimumImageSize.width && settings.minimumImageSize.height ?
+      settings.minimumImageSize : {};
+    minSize.width = request.query.minwidth || minSize.width;
+    minSize.height = request.query.minheight || minSize.height;
     // skip if minimumImageSize dimensions are not set, image can be any size:
-    if (settings.minimumImageSize.width || !settings.minimumImageSize.height) {
+    if (minSize.width || !minSize.height) {
       const size = sizeOf(buffer);
-      if (size.width <= settings.minimumImageSize.width || size.height <= settings.minimumImageSize.height) {
-        throw boom.badRequest(`Image size must be at least ${settings.minimumImageSize.width}x${settings.minimumImageSize.height}`);
+      if (size.width <= minSize.width || size.height <= minSize.height) {
+        throw boom.badRequest(`Image size must be at least ${minSize.width}x${minSize.height}`);
       }
     }
     // if we need to resize the image before processing:
