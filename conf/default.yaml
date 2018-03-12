@@ -19,22 +19,17 @@ plugins:
     exclude:
       - 'client'
   vision:
-    _priority: -5
   inert:
-    _priority: -5
-  hapi-auto-handler:
-    _priority: -5
-  hapi-method-loader:
-    _enabled: false
   hapi-upload-s3:
-    _priority: -6
+    _dependencies:
+      - 'vision'
+      - 'inert'
     bucket: '{{s3.bucket}}'
     accessKey: '{{s3.accessKey}}'
     secretAccessKey: '{{s3.secretAccessKey}}'
     region: '{{s3.region}}'
     profile: 'default'
     maxUploadSize: 30
-  hapi-log-response:
   hapi-favicon:
   hapi-robots:
     envs:
