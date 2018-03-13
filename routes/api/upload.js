@@ -70,10 +70,9 @@ exports.upload = {
     const quality = request.query.quality || settings.quality;
     const buffer = fs.readFileSync(filepath);
     // see if there are image dimension requirements coming from settings or query:
-    const minSize = settings.minimumImageSize.width && settings.minimumImageSize.height ?
-      settings.minimumImageSize : {};
-    minSize.width = request.query.minwidth || minSize.width;
-    minSize.height = request.query.minheight || minSize.height;
+    const minSize = { width: settings.minimumImageSize.width, height: settings.minimumImageSize.height };
+    minSize.width = Number(request.query.minwidth || minSize.width);
+    minSize.height = Number(request.query.minheight || minSize.height);
     // skip if minimumImageSize dimensions are not set, image can be any size:
     const size = sizeOf(buffer);
     if (typeof minSize.width === 'number' && size.width < minSize.width) {
@@ -152,11 +151,11 @@ exports.upload = {
     }
 
     // try to get the final size of the image:
-    let size;
+    let finalSize;
     try {
-      size = sizeOf(minBuffer);
+      finalSize = sizeOf(minBuffer);
     } catch (e) {
-      size = { width: 'unknown', height: 'unknown' };
+      finalSize = { width: 'unknown', height: 'unknown' };
     }
 
     // clean up the file from disk:
