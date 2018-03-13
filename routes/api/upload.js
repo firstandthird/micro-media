@@ -24,6 +24,8 @@ exports.upload = {
         resize: Joi.string(),
         width: Joi.number(),
         height: Joi.number(),
+        minwidth: Joi.number(),
+        minheight: Joi.number(),
         background: Joi.string(),
         quality: Joi.number(),
         folder: Joi.string(),
@@ -67,12 +69,17 @@ exports.upload = {
     // if minimum image dimensions are specified, make sure this is above that size:
     const quality = request.query.quality || settings.quality;
     const buffer = fs.readFileSync(filepath);
+    // see if there are image dimension requirements coming from settings or query:
+    const minSize = { width: settings.minimumImageSize.width, height: settings.minimumImageSize.height };
+    minSize.width = Number(request.query.minwidth || minSize.width);
+    minSize.height = Number(request.query.minheight || minSize.height);
     // skip if minimumImageSize dimensions are not set, image can be any size:
-    if (settings.minimumImageSize.width || !settings.minimumImageSize.height) {
-      const size = sizeOf(buffer);
-      if (size.width <= settings.minimumImageSize.width || size.height <= settings.minimumImageSize.height) {
-        throw boom.badRequest(`Image size must be at least ${settings.minimumImageSize.width}x${settings.minimumImageSize.height}`);
-      }
+    const size = sizeOf(buffer);
+    if (typeof minSize.width === 'number' && size.width < minSize.width) {
+      throw boom.badRequest(`Image must be at least ${minSize.width} pixels wide`);
+    }
+    if (typeof minSize.height === 'number' && size.height < minSize.height) {
+      throw boom.badRequest(`Image must be at least ${minSize.height} pixels tall`);
     }
     // if we need to resize the image before processing:
     let resizeBuffer;
@@ -144,11 +151,11 @@ exports.upload = {
     }
 
     // try to get the final size of the image:
-    let size;
+    let finalSize;
     try {
-      size = sizeOf(minBuffer);
+      finalSize = sizeOf(minBuffer);
     } catch (e) {
-      size = { width: 'unknown', height: 'unknown' };
+      finalSize = { width: 'unknown', height: 'unknown' };
     }
 
     // clean up the file from disk:
