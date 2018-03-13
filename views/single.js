@@ -55,13 +55,15 @@ Dropzone.options.uploader = {
   complete(file) {
     const event = {};
     if (file.status !== 'success') {
-      findOne('#status').innerHTML = 'There was an error.';
+      const resp = JSON.parse(file.xhr.response);
+      findOne('#status').innerHTML = resp.message || 'There was an error.';
       event.type = 'error';
       event.data = {
         status: file.xhr.status,
         message: file.xhr.statusText
       };
 
+      show('#clear');
       return sendMessage(event);
     }
 
