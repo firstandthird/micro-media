@@ -24,6 +24,21 @@ exports.uploadSingle = {
     const bgColor = options.bgColor;
     const defaultImage = (options.defaultImage) ? options.defaultImage : false;
     const defaultText = (options.defaultText) ? options.defaultText.replace(/[<>\/\?\=@\()\{};]/g, "") : 'Drop files here or click to upload.';
+    const showNotice = (options.showNotice === '1');
+    let noticeText = '';
+    if (showNotice) {
+      const noticeArray = [];
+      if (allowedFiles) {
+        noticeArray.push(`Allowed: ${allowedFiles}`);
+      }
+      if (options.minheight) {
+        noticeArray.push(`Minimum Height: ${options.minheight}px`);
+      }
+      if (options.minwidth) {
+        noticeArray.push(`Minimum Width: ${options.minwidth}px`);
+      }
+      noticeText = noticeArray.join(', ');
+    }
 
     delete options.inputId;
     delete options.barColor;
@@ -38,6 +53,7 @@ exports.uploadSingle = {
       bgColor,
       defaultImage,
       defaultText,
+      noticeText,
       allowedFiles,
       routePrefix: settings.routePrefix
     });

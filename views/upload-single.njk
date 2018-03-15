@@ -5,6 +5,11 @@
     <title>MicroMedia Upload Single</title>
     <link rel="stylesheet" href="{{ 'common.css' | asset | cdn }}"/>
     <style>
+      .message-notice {
+        font-size: 9px;
+        margin-top: 10px;
+        display: block;
+      }
       {% if barColor %}
       .upload-single .progress .bar { background-color: {{ barColor }}; }
       {% endif %}
@@ -29,6 +34,7 @@
         {% if inputId -%}
         inputId: '{{ inputId }}',
         {%- endif %}
+        noticeText: '{{ noticeText }}'
       };
     </script>
     <script src="{{ 'single.js' | asset | cdn }}"></script>

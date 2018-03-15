@@ -80,7 +80,7 @@ Dropzone.options.uploader = {
     }
     sendMessage(event);
   },
-  dictDefaultMessage: window.uploaderSetup.defaultText
+  dictDefaultMessage: `${window.uploaderSetup.defaultText}<small class="message-notice">${window.uploaderSetup.noticeText}</small>`
 };
 
 on('#clear', 'click', () => {
