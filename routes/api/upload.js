@@ -21,6 +21,7 @@ exports.upload = {
     validate: {
       query: {
         thumb: Joi.string(),
+        thumbResize: Joi.string().optional(),
         resize: Joi.string(),
         width: Joi.number(),
         height: Joi.number(),
@@ -131,12 +132,19 @@ exports.upload = {
     const s3 = await request.server.uploadToS3(minBuffer, s3Options);
     // create an upload a thumbnail if requested:
     let s3Thumb;
+
     if (request.query.thumb) {
       const dims = request.query.thumb.toLowerCase().split('x');
       const width = parseInt(dims[0], 10);
       const height = parseInt(dims[1], 10);
       const thumbJimp = await Jimp.read(buffer);
-      thumbJimp.resize(width, height);
+
+      if (request.query.thumbResize) {
+        thumbJimp[request.query.thumbResize](width, height);
+      } else {
+        thumbJimp.resize(width, height);
+      }
+
       // getBuffer requires a callback and doesn't work with util.promisify:
       const thumbBuffer = await new Promise((resolve, reject) => {
         thumbJimp.getBuffer(Jimp.AUTO, (err, result) => {
@@ -146,6 +154,7 @@ exports.upload = {
           return resolve(result);
         });
       });
+
       s3Options.path = `thumbnail_${filename}`;
       s3Thumb = await request.server.uploadToS3(thumbBuffer, s3Options);
     }
