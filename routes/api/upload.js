@@ -18,6 +18,10 @@ exports.upload = {
   method: 'POST',
   path: 'upload',
   config: {
+    // set by env variable or default to 1 mb (hapi default anyway)
+    payload: {
+      maxBytes: process.env.UPLOAD_SIZE_MB ? process.env.UPLOAD_SIZE_MB * 1024000 : 1048576
+    },
     validate: {
       query: {
         thumb: Joi.string(),
