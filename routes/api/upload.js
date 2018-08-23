@@ -36,7 +36,8 @@ exports.upload = {
     },
     payload: {
       output: 'file',
-      maxBytes: 10 * (1024 * 1024), // convert to bytes for hapi
+      // set by env variable or default to 1 mb (hapi default anyway)
+      maxBytes: process.env.UPLOAD_SIZE_MB ? parseInt(process.env.UPLOAD_SIZE_MB * 1024000, 10) : 10485760,
       parse: true
     }
   },
