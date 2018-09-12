@@ -4,8 +4,8 @@
   "description": "",
   "private": true,
   "dependencies": {
-    "domassist": "1.7.2",
-    "dropzone": "4.3.0"
+    "domassist": "1.11.1",
+    "dropzone": "5.5.1"
   },
   "eslintConfig": {
     "extends": "firstandthird",
