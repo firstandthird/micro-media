@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "clientkit/package.json",
+        "package.json"
+      ]
+    }
+  }
+}
