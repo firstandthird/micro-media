@@ -26,3 +26,4 @@ clientkit:
     - './clientkit:/app/clientkit'
     - './views:/app/assets'
     - './public/_dist:/app/dist'
+    - './rollup-cache:/app/rollup-cache'

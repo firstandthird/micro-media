@@ -1,4 +1,4 @@
-FROM firstandthird/clientkit:2.0.3
+FROM firstandthird/clientkit:3.8.2
 
 RUN apk add --update git
 

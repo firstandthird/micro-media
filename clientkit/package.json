@@ -4,11 +4,10 @@
   "description": "",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
     "@firstandthird/complete": "1.0.0",
     "clientkit-livereload": "0.0.4",
-    "eslint": "4.1.1",
-    "eslint-config-firstandthird": "3.2.0",
-    "eslint-plugin-import": "2.6.1",
     "bequest": "1.3.2",
     "codemirror": "5.28.0",
     "jsonlint": "1.6.2",
@@ -20,6 +19,9 @@
   },
   "eslintConfig": {
     "extends": "firstandthird",
+    "env": {
+      "browser": true
+    },
     "rules": {
       "no-underscore-dangle": 0
     }

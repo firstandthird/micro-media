@@ -1,6 +1,9 @@
-FROM firstandthird/clientkit:2.0.3 as clientkit
+FROM firstandthird/clientkit:3.8.2 as clientkit
 
-RUN cd /ck && npm install eslint-config-firstandthird eslint-plugin-import
+RUN cd /ck && \
+  rm package.json && \
+  rm package-lock.json && \
+  npm install --no-save eslint-config-firstandthird eslint-plugin-import
 
 COPY clientkit/package.json /app/package.json
 RUN npm install
@@ -21,16 +24,16 @@ COPY --from=clientkit /app/dist $HOME/public/_dist
 COPY package.json $HOME/package.json
 
 RUN apk add --update \
-     git \
-     make \
-     gcc \
-     libpng-dev \
-     autoconf \
-     automake \
-     make \
-     g++ \
-     libtool \
-     nasm
+  git \
+  make \
+  gcc \
+  libpng-dev \
+  autoconf \
+  automake \
+  make \
+  g++ \
+  libtool \
+  nasm
 
 RUN npm install --production
 

@@ -4,10 +4,15 @@ views:
   path: '{{CWD}}/views'
   defaultExtension: 'njk'
   compileMode: 'async'
+  isCached: true
+
 plugins:
   hapi-nunjucks-helpers:
-    assets: 
+    assets:
       endpoint: '{{routePrefix}}/ui'
+      cache: true
+      mappingFile: '{{CWD}}/public/_dist/assets.json'
+
 assets:
   path: 'public/_dist'
   endpoint: '/ui'
