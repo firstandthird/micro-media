@@ -1,3 +1,8 @@
 node_modules
 public/_dist
+public/assets.json
 .env
+npm-debug.log
+.idea
+.DS_Store
+rollup-cache
