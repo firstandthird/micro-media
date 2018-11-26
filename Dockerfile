@@ -1,8 +1,9 @@
-FROM firstandthird/clientkit:2.0.3 as clientkit
+FROM firstandthird/clientkit:3.8.2 as clientkit
 
-RUN apk add --update git
-
-RUN cd /ck && npm install eslint-config-firstandthird eslint-plugin-import
+RUN cd /ck && \
+  rm package.json && \
+  rm package-lock.json && \
+  npm install --no-save eslint-config-firstandthird eslint-plugin-import
 
 COPY clientkit/package.json /app/package.json
 RUN npm install
@@ -11,11 +12,12 @@ COPY clientkit /app/clientkit
 COPY views /app/assets
 
 ENV NODE_ENV production
+
 RUN clientkit prod
 
 FROM firstandthird/node:8.8
 
-RUN apk add --update \ 
+RUN apk add --update \
      git \
      make \
      gcc \
