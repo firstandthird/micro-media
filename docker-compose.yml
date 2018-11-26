@@ -1,3 +1,13 @@
+proxy:
+  image: traefik
+  command: --web --docker --logLevel=WARN
+  ports:
+    - "80:80"
+    - "8080:8080"
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /dev/null:/traefik.toml
+
 app:
   build: .
   dockerfile: 'DockerfileDev'
@@ -14,8 +24,13 @@ app:
     S3_HOST:
     PUBLIC:
     FOLDER:
+  links:
+    - 'proxy:proxy'
   ports:
     - '8080'
+  labels:
+    - "traefik.frontend.rule=PathPrefix:/"
+
 clientkit:
   build: './clientkit'
   command: 'dev'
