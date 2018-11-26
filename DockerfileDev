@@ -13,3 +13,5 @@ RUN apk add --update \
      nasm
 
 EXPOSE 8080
+
+CMD ["dumb-init", "npm", "run", "dev"]

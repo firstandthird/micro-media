@@ -18,16 +18,16 @@ RUN clientkit prod
 FROM firstandthird/node:10.10
 
 RUN apk add --update \
-     git \
-     make \
-     gcc \
-     libpng-dev \
-     autoconf \
-     automake \
-     make \
-     g++ \
-     libtool \
-     nasm
+  git \
+  make \
+  gcc \
+  libpng-dev \
+  autoconf \
+  automake \
+  make \
+  g++ \
+  libtool \
+  nasm
 
 COPY package.json package-lock.* $HOME/src/
 RUN npm install --silent --production && npm cache clean --force
