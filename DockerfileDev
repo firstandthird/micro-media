@@ -12,4 +12,4 @@ RUN apk add --update \
      libtool \
      nasm
 
-CMD ["dumb-init", "npm", "run", "dev"]
+EXPOSE 8080
