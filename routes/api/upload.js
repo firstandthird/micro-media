@@ -58,7 +58,7 @@ exports.upload = {
     } else {
       filepath = request.payload.file.path;
     }
-    const filename = request.query.url ? path.basename(filepath) : request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
+    const filename = request.query.url ? path.basename(filepath) : request.payload.file.filename.replace(/[()/?<>\\:*|":]/g, '').replace(/\s/g, '_');
 
     // make sure we accept images with that extension:
     const ext = path.extname(filename).toLowerCase();
@@ -158,14 +158,6 @@ exports.upload = {
 
       s3Options.path = `thumbnail_${filename}`;
       s3Thumb = await request.server.uploadToS3(thumbBuffer, s3Options);
-    }
-
-    // try to get the final size of the image:
-    let finalSize;
-    try {
-      finalSize = sizeOf(minBuffer);
-    } catch (e) {
-      finalSize = { width: 'unknown', height: 'unknown' };
     }
 
     // clean up the file from disk:

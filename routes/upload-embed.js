@@ -24,7 +24,7 @@ exports.uploadSingle = {
     const barColor = options.barColor;
     const bgColor = options.bgColor;
     const defaultImage = (options.defaultImage) ? options.defaultImage : false;
-    const defaultText = (options.defaultText) ? options.defaultText.replace(/[<>\/\?\=@\()\{};]/g, "") : 'Drop files here or click to upload.';
+    const defaultText = (options.defaultText) ? options.defaultText.replace(/[<>/?=@(){};]/g, '') : 'Drop files here or click to upload.';
     const showNotice = (options.showNotice === '1');
     let noticeText = '';
     if (showNotice) {
