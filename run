@@ -4,7 +4,7 @@ NAME=micromedia_app_1
 CMD=$1
 
 if [[ -z "$CMD" ]]; then
-  docker-compose up --build
+  docker-compose up --abort-on-container-exit --build proxy app clientkit
   exit
 fi
 

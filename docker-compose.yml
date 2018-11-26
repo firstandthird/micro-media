@@ -24,12 +24,10 @@ app:
     PUBLIC:
     FOLDER:
     UPLOAD_SIZE_MB:
-  ports:
-    - '8080:8080'
   links:
     - 'proxy:proxy'
   ports:
-    - '8080:8080'
+    - '8080'
   labels:
     - "traefik.frontend.rule=PathPrefix:/"
 

@@ -5,7 +5,8 @@
   "description": "Site to manage media (images, pdfs, etc). Store in s3",
   "scripts": {
     "start": "rapptor",
-    "dev": "npm install && nodemon -x npm start"
+    "dev": "npm install && nodemon -x npm start",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

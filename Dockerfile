@@ -15,7 +15,7 @@ ENV NODE_ENV production
 
 RUN clientkit prod
 
-FROM firstandthird/node:8.8
+FROM firstandthird/node:10.10
 
 RUN apk add --update \
      git \
@@ -35,3 +35,8 @@ RUN npm install --silent --production && npm cache clean --force
 COPY . $HOME/src
 
 COPY --from=clientkit /app/dist /home/app/src/public/_dist
+
+EXPOSE 8080
+ENV PORT 8080
+
+CMD ["rapptor"]
