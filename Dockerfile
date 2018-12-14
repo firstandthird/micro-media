@@ -13,7 +13,7 @@ COPY views /app/assets
 ENV NODE_ENV production
 RUN clientkit prod
 
-FROM firstandthird/node:8.8
+FROM firstandthird/node:10.10-2-onbuild
 
 RUN apk add --update \ 
      git \
