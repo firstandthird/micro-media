@@ -43,7 +43,7 @@
     "eslint": "^5.10.0",
     "eslint-config-firstandthird": "^4.3.0",
     "eslint-plugin-import": "^2.8.0",
-    "nodemon": "1.11.0"
+    "nodemon": "^1.18.9"
   },
   "eslintConfig": {
     "extends": "firstandthird"
