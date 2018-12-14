@@ -4,7 +4,8 @@
   "private": true,
   "description": "Site to manage media (images, pdfs, etc). Store in s3",
   "scripts": {
-    "start": "./node_modules/.bin/rapptor"
+    "start": "./node_modules/.bin/rapptor",
+    "dev": "npm install && nodemon -x npm start"
   },
   "repository": {
     "type": "git",
@@ -41,7 +42,8 @@
   "devDependencies": {
     "eslint": "^5.10.0",
     "eslint-config-firstandthird": "^4.3.0",
-    "eslint-plugin-import": "^2.8.0"
+    "eslint-plugin-import": "^2.8.0",
+    "nodemon": "1.11.0"
   },
   "eslintConfig": {
     "extends": "firstandthird"
