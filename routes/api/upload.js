@@ -140,14 +140,7 @@ exports.upload = {
       }
 
       // getBuffer requires a callback and doesn't work with util.promisify:
-      const thumbBuffer = await new Promise((resolve, reject) => {
-        thumbJimp.getBuffer(Jimp.AUTO, (err, result) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve(result);
-        });
-      });
+      const thumbBuffer = await thumbJimp.getBufferAsync(Jimp.AUTO);
 
       s3Options.path = `thumbnail_${filename}`;
       s3Thumb = await request.server.uploadToS3(thumbBuffer, s3Options);
