@@ -15,7 +15,7 @@ ENV NODE_ENV production
 
 RUN clientkit prod
 
-FROM firstandthird/node:10.10-2-onbuild
+FROM firstandthird/node:10.10-2
 
 RUN apk add --update \
   git \
