@@ -93,15 +93,8 @@ exports.upload = {
         const color = new TinyColor(background);
         jimpImage.background(parseInt(color.toHex8(), 16));
       }
-      // getBuffer requires a callback and doesn't work with util.promisify:
-      resizeBuffer = await new Promise((resolve, reject) => {
-        jimpImage.getBuffer(Jimp.AUTO, (err, result) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve(result);
-        });
-      });
+
+      resizeBuffer = await jimpImage.getBufferAsync(Jimp.AUTO);
     } else {
       resizeBuffer = buffer;
     }
