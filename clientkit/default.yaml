@@ -1,3 +1,6 @@
+minify: '{{ENV.NODE_ENV === "production"}}'
+styleguide:
+  css: []
 hash:
   enabled: false
 scripts:

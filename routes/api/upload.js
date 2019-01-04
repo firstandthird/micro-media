@@ -58,7 +58,7 @@ exports.upload = {
     } else {
       filepath = request.payload.file.path;
     }
-    const filename = request.query.url ? path.basename(filepath) : request.payload.file.filename.replace(/[\(\)\/\?<>\\:\*\|":]/g, '').replace(/\s/g, '_');
+    const filename = request.query.url ? path.basename(filepath) : request.payload.file.filename.replace(/[()/?<>\\:*|":]/g, '').replace(/\s/g, '_');
 
     // make sure we accept images with that extension:
     const ext = path.extname(filename).toLowerCase();
@@ -93,15 +93,8 @@ exports.upload = {
         const color = new TinyColor(background);
         jimpImage.background(parseInt(color.toHex8(), 16));
       }
-      // getBuffer requires a callback and doesn't work with util.promisify:
-      resizeBuffer = await new Promise((resolve, reject) => {
-        jimpImage.getBuffer(Jimp.AUTO, (err, result) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve(result);
-        });
-      });
+
+      resizeBuffer = await jimpImage.getBufferAsync(Jimp.AUTO);
     } else {
       resizeBuffer = buffer;
     }
@@ -147,25 +140,10 @@ exports.upload = {
       }
 
       // getBuffer requires a callback and doesn't work with util.promisify:
-      const thumbBuffer = await new Promise((resolve, reject) => {
-        thumbJimp.getBuffer(Jimp.AUTO, (err, result) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve(result);
-        });
-      });
+      const thumbBuffer = await thumbJimp.getBufferAsync(Jimp.AUTO);
 
       s3Options.path = `thumbnail_${filename}`;
       s3Thumb = await request.server.uploadToS3(thumbBuffer, s3Options);
-    }
-
-    // try to get the final size of the image:
-    let finalSize;
-    try {
-      finalSize = sizeOf(minBuffer);
-    } catch (e) {
-      finalSize = { width: 'unknown', height: 'unknown' };
     }
 
     // clean up the file from disk:

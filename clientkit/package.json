@@ -1,16 +1,21 @@
 {
-  "name": "sgff-clientkit",
+  "name": "micro-media-clientkit",
   "version": "0.0.0",
   "description": "",
   "private": true,
   "dependencies": {
-    "domassist": "1.7.2",
-    "dropzone": "4.3.0"
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "domassist": "^1.12.0",
+    "dropzone": "^4.3.0"
   },
   "eslintConfig": {
     "extends": "firstandthird",
+    "env": {
+      "browser": true
+    },
     "rules": {
       "no-underscore-dangle": 0
     }
   }
-}	
+}

@@ -1,27 +1,52 @@
-app:
-  build: .
-  dockerfile: 'DockerfileDev'
-  volumes:
-    - '.:/home/app/src'
-  environment:
-    PORT: 8080
-    FORCE_COLOR: 1
-    AWS_ACCESS_KEY_ID:
-    AWS_BUCKET:
-    AWS_SECRET_ACCESS_KEY:
-    S3_HOST:
-    PUBLIC:
-    FOLDER:
-    UPLOAD_SIZE_MB:
-  ports:
-    - '8080:8080'
+version: '3.4'
 
-clientkit:
-  build: './clientkit'
-  command: 'dev'
-  environment:
-    FORCE_COLOR: 1
-  volumes:
-    - './clientkit:/app/clientkit'
-    - './public/_dist:/app/dist'
-    - './views:/app/assets'
+services:
+  proxy:
+    image: traefik
+    command: --web --docker --logLevel=WARN
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml
+  app:
+    build:
+        context: '.'
+        dockerfile: 'DockerfileDev'
+    volumes:
+      - '.:/home/app/src:delegated'
+      - 'appnm:/home/app/src/node_modules'
+    environment:
+      NODE_ENV: 'dev'
+      DOMAIN:
+      PORT: 8080
+      FORCE_COLOR: 1
+      AWS_ACCESS_KEY_ID:
+      AWS_BUCKET:
+      AWS_SECRET_ACCESS_KEY:
+      S3_HOST:
+      PUBLIC:
+      FOLDER:
+      UPLOAD_SIZE_MB:
+    links:
+      - 'proxy:proxy'
+    ports:
+      - '8080'
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/"
+
+  clientkit:
+    build: './clientkit'
+    command: 'dev'
+    environment:
+      FORCE_COLOR: 1
+      NODE_ENV:
+    volumes:
+      - './clientkit:/app/clientkit'
+      - './public/_dist:/app/dist'
+      - './views:/app/assets'
+      - './rollup-cache:/app/rollup-cache'
+
+volumes:
+  appnm:

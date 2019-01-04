@@ -1,6 +1,8 @@
-FROM firstandthird/node:8.8
+FROM firstandthird/node:10.10-2
 
-RUN apk add --update \ 
+ENV NODEMON=1
+
+RUN apk add --update \
      git \
      make \
      gcc \
@@ -11,5 +13,10 @@ RUN apk add --update \
      g++ \
      libtool \
      nasm
+
+COPY package.json package-lock.* $HOME/src/
+RUN npm install --silent && npm cache clean --force
+
+EXPOSE 8080 9229 9230
 
 CMD ["dumb-init", "npm", "run", "dev"]
