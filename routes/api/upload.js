@@ -109,7 +109,7 @@ exports.upload = {
           imageminJpegtran({})
         ]
       });
-      } catch (err) {
+    } catch (err) {
       // anything other than error 99 is considered an unrecoverable error:
       if (err.code !== 99) {
         throw err;
