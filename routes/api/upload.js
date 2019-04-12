@@ -1,7 +1,7 @@
 'use strict';
 const wreck = require('wreck');
 const imagemin = require('imagemin');
-const imageminMozjpeg = require('imagemin-mozjpeg');
+const imageminJpegtran = require('imagemin-jpegtran');
 const imageminPngquant = require('imagemin-pngquant');
 const imageminSvgo = require('imagemin-svgo');
 const fs = require('fs');
@@ -104,9 +104,9 @@ exports.upload = {
     try {
       minBuffer = await imagemin.buffer(resizeBuffer, {
         plugins: [
-          imageminMozjpeg({ quality }),
           imageminPngquant({ quality }),
-          imageminSvgo({ quality })
+          imageminSvgo({ quality }),
+          imageminJpegtran({})
         ]
       });
     } catch (err) {
