@@ -1,7 +1,6 @@
 'use strict';
 const fs = require('fs');
 const Joi = require('joi');
-const boom = require('boom');
 const optimiz = require('optimiz');
 
 exports.upload = {
