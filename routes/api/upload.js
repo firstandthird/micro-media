@@ -17,7 +17,7 @@ exports.upload = {
         minwidth: Joi.number(),
         minheight: Joi.number(),
         background: Joi.string(),
-        quality: Joi.number(),
+        quality: Joi.number().default(0.5),
         folder: Joi.string(),
         public: Joi.string(),
         url: Joi.string()
@@ -54,7 +54,7 @@ exports.upload = {
     }
     // try to compress the image data before uploading:
     const quality = request.query.quality || settings.quality;
-    const minBuffer = await optimize({ quality }, resizeBuffer);
+    const minBuffer = await optimize({ quality: [quality, quality] }, resizeBuffer);
 
     // upload the image:
     const s3Options = {
