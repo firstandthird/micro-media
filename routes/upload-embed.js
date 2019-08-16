@@ -3,6 +3,10 @@ const querystring = require('querystring');
 exports.uploadMulti = {
   path: '/upload-multi',
   method: 'GET',
+  // leave plenty of time for the upload to go through:
+  config: {
+    timeout: 120 * 1000
+  },
   handler(request, h) {
     const settings = request.server.settings.app;
     return h.view('upload-multi', {
@@ -15,6 +19,10 @@ exports.uploadMulti = {
 exports.uploadSingle = {
   path: '/upload-single',
   method: 'GET',
+  // leave plenty of time for the upload to go through:
+  config: {
+    timeout: 120 * 1000
+  },
   handler(request, h) {
     const settings = request.server.settings.app;
     const allowedFiles = request.server.settings.app.allowedExtensions;

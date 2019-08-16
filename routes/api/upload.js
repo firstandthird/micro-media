@@ -7,6 +7,7 @@ exports.upload = {
   method: 'POST',
   path: 'upload',
   config: {
+    timeout: 120 * 1000,
     validate: {
       query: {
         thumb: Joi.string(),
