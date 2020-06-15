@@ -33,7 +33,7 @@ exports.upload = {
   async handler(request, h) {
     const settings = request.server.settings.app;
     const { getImage, getBuffer, validateSize } = request.server.methods;
-    const { resize, optimize, thumbnail } = optimiz;
+    const { resize, optimize } = optimiz;
     // get image as a file on disc or forward the HTTP error if it was a URL that couldn't be fetched:
     const fileInfo = await getImage(request);
 
@@ -65,14 +65,13 @@ exports.upload = {
       maxAge: settings.maxAge
     };
     const s3 = await request.server.uploadToS3(minBuffer, s3Options);
-
     // create an upload a thumbnail if requested:
     let s3Thumb = false;
     if (request.query.thumb) {
       const dims = request.query.thumb.toLowerCase().split('x');
       const width = parseInt(dims[0], 10);
       const height = parseInt(dims[1], 10);
-      const thumbBuffer = await thumbnail({ width, height }, minBuffer);
+      const thumbBuffer = await resize({ width, height }, minBuffer);
       s3Options.path = `thumbnail_${fileInfo.filename}`;
       s3Thumb = await request.server.uploadToS3(thumbBuffer, s3Options);
     }
