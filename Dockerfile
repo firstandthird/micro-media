@@ -1,21 +1,16 @@
 FROM firstandthird/clientkit:3.8.2 as clientkit
 
-RUN cd /ck && \
-  rm package.json && \
-  rm package-lock.json && \
-  npm install --no-save eslint-config-firstandthird eslint-plugin-import
-
 COPY clientkit/package.json /app/package.json
 RUN npm install
+
+ENV NODE_ENV production
 
 COPY clientkit /app/clientkit
 COPY views /app/assets
 
-ENV NODE_ENV production
-
 RUN clientkit prod
 
-FROM firstandthird/node:10.10-2
+FROM node:18.12.0-alpine
 
 RUN apk add --update \
   git \
@@ -30,7 +25,7 @@ RUN apk add --update \
   nasm
 
 COPY package.json package-lock.* $HOME/src/
-RUN npm install --silent --production && npm cache clean --force
+RUN NODE_ENV=production npm ci
 
 COPY . $HOME/src
 
