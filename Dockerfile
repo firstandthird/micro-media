@@ -10,7 +10,17 @@ COPY views /app/assets
 
 RUN clientkit prod
 
-FROM node:18.12.0-alpine
+FROM node:18.12.1-alpine
+
+ENV HOME=/home/app
+ENV PATH=/home/app/src/node_modules/.bin:$PATH
+ENV NODE_ENV production
+
+EXPOSE 8080
+
+WORKDIR $HOME/src
+
+COPY --from=clientkit /app/dist /home/app/src/public/_dist
 
 RUN apk add --update \
   git \
@@ -24,14 +34,9 @@ RUN apk add --update \
   libtool \
   nasm
 
-COPY package.json package-lock.* $HOME/src/
-RUN NODE_ENV=production npm ci
+COPY package.json $HOME/src/
+RUN npm install
 
 COPY . $HOME/src
-
-COPY --from=clientkit /app/dist /home/app/src/public/_dist
-
-EXPOSE 8080
-ENV PORT 8080
 
 CMD ["rapptor"]

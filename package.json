@@ -52,5 +52,9 @@
       "no-underscore-dangle": 0,
       "import/no-unresolved": 0
     }
+  },
+  "volta": {
+    "node": "18.12.1",
+    "npm": "9.1.3"
   }
 }
