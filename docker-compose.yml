@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   proxy:
-    image: traefik
+    image: traefik:1.7
     command: --web --docker --logLevel=WARN
     ports:
       - "80:80"

@@ -5,7 +5,7 @@
   "description": "Site to manage media (images, pdfs, etc). Store in s3",
   "scripts": {
     "start": "rapptor",
-    "dev": "npm install && nodemon -x npm start",
+    "dev": "nodemon -x npm start",
     "lint": "eslint ."
   },
   "repository": {
@@ -21,16 +21,21 @@
   "homepage": "https://github.com/firstandthird/micro-media#readme",
   "dependencies": {
     "boom": "^7.3.0",
+    "content": "^4.0.6",
+    "cryptiles": "^4.1.3",
     "hapi-favicon": "^2.1.0",
     "hapi-log-response": "^4.10.0",
     "hapi-nunjucks-helpers": "^4.3.1",
     "hapi-robots": "^3.1.3",
     "hapi-upload-s3": "^3.0.0",
-    "image-size": "^0.6.3",
+    "image-size": "^1.0.2",
     "inert": "^5.1.3",
+    "iron": "^5.0.6",
     "joi": "^14.3.1",
+    "logr-sentry": "^1.1.0",
     "mime-types": "^2.1.22",
-    "optimiz": "^2.1.0",
+    "optimiz": "^4.0.0",
+    "pez": "^4.0.5",
     "rapptor": "^8.2.0",
     "vision": "^5.4.4",
     "vision-nunjucks": "^3.1.1",
@@ -38,19 +43,10 @@
   },
   "devDependencies": {
     "eslint": "^5.10.0",
-    "eslint-config-firstandthird": "^4.3.0",
-    "eslint-plugin-import": "^2.14.0",
     "nodemon": "^1.18.9"
   },
-  "eslintConfig": {
-    "extends": "firstandthird",
-    "env": {
-      "browser": true,
-      "node": true
-    },
-    "rules": {
-      "no-underscore-dangle": 0,
-      "import/no-unresolved": 0
-    }
+  "volta": {
+    "node": "18.12.1",
+    "npm": "9.1.3"
   }
 }
