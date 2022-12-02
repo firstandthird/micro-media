@@ -37,7 +37,7 @@ RUN apk add --update \
   nasm
 
 COPY package.json $HOME/src/
-RUN npm install --legacy-deps
+RUN npm install --legacy-peer-deps
 
 COPY . $HOME/src
 
