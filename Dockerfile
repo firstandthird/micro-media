@@ -32,6 +32,7 @@ RUN apk add --update \
   make \
   g++ \
   libtool \
+  python3 \
   nasm
 
 COPY package.json $HOME/src/
