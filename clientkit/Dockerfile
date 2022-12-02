@@ -1,4 +1,4 @@
-FROM firstandthird/clientkit:3.8.2
+FROM firstandthird/clientkit:3.9.0
 
 RUN cd /ck && \
   rm package.json && \

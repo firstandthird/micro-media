@@ -1,22 +1,28 @@
-FROM firstandthird/node:10.10-2
+FROM node:18.12.1-alpine
 
-ENV NODEMON=1
+ENV HOME=/home/app
+ENV PATH=/home/app/src/node_modules/.bin:$PATH
+ENV NODE_ENV production
+
+EXPOSE 8080
+
+WORKDIR $HOME/src
 
 RUN apk add --update \
-     git \
-     make \
-     gcc \
-     libpng-dev \
-     autoconf \
-     automake \
-     make \
-     g++ \
-     libtool \
-     nasm
+  git \
+  make \
+  gcc \
+  libpng-dev \
+  autoconf \
+  automake \
+  make \
+  g++ \
+  libtool \
+  nasm
 
-COPY package.json package-lock.* $HOME/src/
-RUN npm install --silent && npm cache clean --force
+COPY package.json $HOME/src/
+RUN npm install
 
-EXPOSE 8080 9229 9230
+COPY . $HOME/src
 
-CMD ["dumb-init", "npm", "run", "dev"]
+CMD ["npm", "run", "dev"]

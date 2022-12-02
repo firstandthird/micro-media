@@ -1,4 +1,4 @@
-FROM firstandthird/clientkit:3.8.2 as clientkit
+FROM firstandthird/clientkit:3.9.0 as clientkit
 
 COPY clientkit/package.json /app/package.json
 RUN npm install

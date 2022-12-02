@@ -10,3 +10,17 @@ scripts:
 stylesheets:
   files:
     'common.css': '{{ assetPath }}/common.css'
+tasks:
+  default:
+    -
+      - 'clean'
+    -
+      - 'stylesheets'
+      - 'scripts'
+      - 'svgsprite'
+  dev:
+    - 'default'
+    - 'watcher'
+  prod:
+    - 'default'
+    - 'hash'
