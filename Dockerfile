@@ -33,6 +33,7 @@ RUN apk add --update \
   g++ \
   libtool \
   python3 \
+  vips \
   nasm
 
 COPY package.json $HOME/src/
