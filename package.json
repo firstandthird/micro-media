@@ -32,7 +32,7 @@
     "iron": "^5.0.6",
     "joi": "^14.3.1",
     "mime-types": "^2.1.22",
-    "optimiz": "^3.0.0",
+    "optimiz": "^4.0.0",
     "rapptor": "^8.2.0",
     "vision": "^5.4.4",
     "vision-nunjucks": "^3.1.1",
