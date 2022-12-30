@@ -31,7 +31,7 @@
     "joi": "^14.3.1",
     "mime-types": "^2.1.22",
     "optimiz": "^2.1.0",
-    "rapptor": "^8.2.0",
+    "rapptor": "^12.0.1",
     "vision": "^5.4.4",
     "vision-nunjucks": "^3.1.1",
     "wreck": "^14.2.0"
